@@ -5,7 +5,7 @@ import 'package:tempo_app/pages/register.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +118,9 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
+                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock),
                     filled: true,
                     fillColor: Colors.white,
                     hintText: 'Password',

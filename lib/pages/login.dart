@@ -89,7 +89,9 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.email),
                     filled: true,
                     fillColor: Colors.white,
                     hintText: 'Email',

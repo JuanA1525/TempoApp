@@ -3,25 +3,25 @@ import 'package:tempo_app/model/sleep.dart';
 import 'package:tempo_app/model/task.dart';
 
 class User {
-  final String nombre;
-  final String apellido;
-  final String correo;
-  String? contrasena;
-  final Genre genero; //enum con los generos
-  final int edad;
-  final double peso;
+  final String name;
+  final String surName;
+  final String mail;
+  String? password;
+  final Genre genere; //enum con los generos
+  final int age;
+  final double weight;
   final List<Task> taskList;
-  final List<Sleep> dreamList;
+  final List<Sleep> sleepList;
   
   User({
-    required this.nombre,
-    required this.apellido,
+    required this.name,
+    required this.surName,
     this.taskList=const[],  //valor por defecto
-    required this.correo,
-    required this.contrasena,
-    required this.edad,
-    required this.peso,
-    this.dreamList=const[],  //valor por defecto
-    this.genero= Genre.other, // Valor por defecto
+    required this.mail,
+    required this.password,
+    required this.age,
+    required this.weight,
+    this.sleepList=const[],  //valor por defecto
+    this.genere= Genre.other, // Valor por defecto
   });
 }

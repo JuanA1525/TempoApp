@@ -1,6 +1,6 @@
 enum Genre{
-  masculino,
-  femenino,
+  male,
+  female,
   none,
   other,
 }

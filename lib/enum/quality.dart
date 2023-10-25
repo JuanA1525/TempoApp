@@ -1,7 +1,7 @@
 enum Quality{
-  uno, 
-  dos, 
-  tres,
-  cuatro,
-  cinco
+  awful, 
+  low, 
+  mid,
+  high,
+  excelent
 }

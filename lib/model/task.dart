@@ -2,23 +2,23 @@ import 'package:flutter/widgets.dart';
 
 class Task{
   //atributos
-  final String nombre;
-  final String descripcion;
-  final DateTime? fechaCreacion;
-  final DateTime? fechaLimite;
-  final int importancia;
-  final State estado; //enum con los estados
+  final String name;
+  final String description;
+  final DateTime? creationDate;
+  final DateTime? limitDate;
+  final int priority;
+  final State state; //enum con los estados
   final bool? pomodoro;
-  final DateTime? tiempo;
+  final DateTime? duration;
 
   Task({
-    required this.nombre,
-    required this.descripcion,
-    this.fechaCreacion,
-    this.fechaLimite,
-    required this.importancia,
-    required this.estado,
+    required this.name,
+    required this.description,
+    this.creationDate,
+    this.limitDate,
+    required this.priority,
+    required this.state,
     this.pomodoro,
-    this.tiempo,
+    this.duration ,
   });
 }

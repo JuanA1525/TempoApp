@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "171449795373",
+    "project_id": "tempoapp-e0bb6",
+    "storage_bucket": "tempoapp-e0bb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171449795373:android:cfed73d194d548b624c9a4",
+        "android_client_info": {
+          "package_name": "com.example.tempo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABliC7ak8o0Hb2kJqcfPjwHasxYqaodTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

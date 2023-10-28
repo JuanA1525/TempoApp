@@ -6,7 +6,7 @@ import 'package:tempo_app/pages/register.dart';
 class Login extends StatelessWidget {
   const Login({super.key});
   
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF352BFF),
@@ -190,4 +190,6 @@ class Login extends StatelessWidget {
       )
     );
   }
+  
+  
 }

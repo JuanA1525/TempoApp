@@ -42,13 +42,6 @@ class User {
     //consulta a la coleccion
     QuerySnapshot consultaUsers = await collectionReferenceUsers.get();
     
-    //aca vienen todos los documentos en forma de array
-    if(consultaUsers.docs.isNotEmpty){
-
-      for (var doc in consultaUsers.docs) {
-        print(doc.data());
-      }
-    }
   }
 
   //funcion para añadir los usuarios

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/home.dart';
@@ -7,8 +5,8 @@ import 'package:tempo_app/pages/register.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
-  
-@override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF352BFF),
@@ -91,9 +89,7 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
-                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
                     filled: true,
                     fillColor: Colors.white,
                     hintText: 'Email',
@@ -120,9 +116,7 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
-                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
                     filled: true,
                     fillColor: Colors.white,
                     hintText: 'Password',
@@ -192,6 +186,4 @@ class Login extends StatelessWidget {
       )
     );
   }
-  
-  
 }

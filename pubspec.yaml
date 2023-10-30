@@ -11,6 +11,8 @@ dependencies:
   cloud_firestore:
   flutter:
     sdk: flutter
+  
+  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +24,7 @@ flutter:
   assets:
   - assets/login_bg.png
   - assets/register_bg.png
+  - assets/task_icon.svg
 
 fonts:
   - family: Poppins

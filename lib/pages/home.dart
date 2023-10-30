@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -88,7 +91,12 @@ class Home extends StatelessWidget {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
                         },
-                        child: const Icon(Icons.task, color: Colors.blueAccent, size: 30,),
+                        child: SvgPicture.asset(
+                          'assets/task_icon.svg', 
+                          color: Colors.blueAccent,
+                          width: 30,
+                          height: 30,
+                        ),
                       ),
 
                       GestureDetector(

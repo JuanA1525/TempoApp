@@ -1,12 +1,6 @@
 import 'dart:ui';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/pages/login.dart';
-
-//instanciamos la base de datos
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final CollectionReference _userCollection = _firestore.collection('Users');
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -14,6 +8,10 @@ class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
   
+}
+
+registerUser(){
+
 }
 
 class _RegisterState extends State<Register> {
@@ -39,51 +37,14 @@ class _RegisterState extends State<Register> {
       });
     }
   }
-  /*
+  
   //se ejecuta justo antes del widget main sea lanzado
   // aca llamamos a la funcion que traerá la data de firestore
   @override
   void initState() {
     super.initState();
-    getUsers();
   }
   //esta es la función
-  void getUsers() async {
-    //referencia a que colección vamos a utilizar
-    CollectionReference collectionReferenceUsers = FirebaseFirestore.instance.collection("users");
-
-    //consulta a la coleccion
-    QuerySnapshot consultaUsers = await collectionReferenceUsers.get();
-    
-    //aca vienen todos los documentos en forma de array
-    if(consultaUsers.docs.isNotEmpty){
-
-      for (var doc in consultaUsers.docs) {
-        print(doc.data());
-      }
-    }
-  }
-  */
-
-  
-  //funcion para añadir los usuarios
-   Future<void> addUser() async{
-    try{
-      DocumentReference docRef = _userCollection.doc();
-
-      await docRef.set(
-        {
-          "Name":name.text,
-          "LastName":lastname.text,
-
-        }
-      );
-
-    }catch(e){
-      throw Exception("Hubo un error en addUser $e");
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -359,7 +320,7 @@ class _RegisterState extends State<Register> {
                       child: GestureDetector(
                         onTap: () {
                           //se llama al usuario
-                          addUser();
+                          registerUser();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

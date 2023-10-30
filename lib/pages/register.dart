@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tempo_app/pages/login.dart';
 
@@ -8,9 +7,18 @@ class Register extends StatefulWidget {
 
   @override
   State<Register> createState() => _RegisterState();
+  
+}
+
+registerUser(){
+
 }
 
 class _RegisterState extends State<Register> {
+  //variables de control
+  TextEditingController name = TextEditingController();
+  TextEditingController lastname = TextEditingController();
+
   final List<String> _options = ['Male', 'Female', 'Other'];
   String? _selectedOption;
 
@@ -23,11 +31,20 @@ class _RegisterState extends State<Register> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
+  
+  //se ejecuta justo antes del widget main sea lanzado
+  // aca llamamos a la funcion que traerá la data de firestore
+  @override
+  void initState() {
+    super.initState();
+  }
+  //esta es la función
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +125,8 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
+                    //controlador para validar nombre
+                    controller: name,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -133,6 +152,8 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
+                    //controlador para validar apellido
+                    controller: lastname,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -298,10 +319,12 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
+                          //se llama al usuario
+                          registerUser();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Login()));
+                                  builder: (context) => const Login()));        
                         },
                         child: const Icon(
                           Icons.check,

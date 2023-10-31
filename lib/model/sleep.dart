@@ -1,8 +1,8 @@
 import 'package:tempo_app/enum/quality.dart';
 
 class Sleep{
-  final DateTime date;
-  final Quality quality; //enum de la calidad
+  final String date;
+  final eQuality quality; //enum de la calidad
   final int duration; //en minutos
 
   Sleep({

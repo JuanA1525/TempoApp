@@ -8,7 +8,7 @@ class CustomUser {
   final String lastName;
   final String mail;
   String? password;
-  final Genre genere; //enum con los generos
+  final eGenere genere; //enum con los generos
   final int age;
   final double weight;
   final List<Task> taskList;
@@ -19,12 +19,14 @@ class CustomUser {
   CustomUser({
     required this.name,
     required this.lastName,
-    this.taskList=const[],  //valor por defecto
     required this.mail,
     required this.password,
     required this.age,
     required this.weight,
+    
     this.sleepList=const[],  //valor por defecto
-    this.genere= Genre.other, // Valor por defecto
+    this.taskList=const[],  //valor por defecto
+    
+    this.genere= eGenere.other, // Valor por defecto
   });
 }

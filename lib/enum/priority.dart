@@ -1,4 +1,5 @@
-enum Quality{
+// ignore: camel_case_types
+enum ePriority{
   ignore, 
   low, 
   mid,

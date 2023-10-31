@@ -1,15 +1,17 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/scheduler.dart';
+
+import '../enum/priority.dart';
+import '../enum/state.dart';
 
 class Task{
   //atributos
   final String name;
   final String description;
-  final DateTime? creationDate;
-  final DateTime? limitDate;
-  final int priority;
-  final State state; //enum con los estados
-  final bool? pomodoro;
-  final DateTime? duration;
+  final String? creationDate;
+  final String? limitDate;
+  final int? duration;
+  final ePriority priority;
+  final eState state; 
 
   Task({
     required this.name,
@@ -18,7 +20,6 @@ class Task{
     this.limitDate,
     required this.priority,
     required this.state,
-    this.pomodoro,
     this.duration ,
   });
 }

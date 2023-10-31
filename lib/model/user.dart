@@ -3,7 +3,7 @@ import 'package:tempo_app/enum/genre.dart';
 import 'package:tempo_app/model/sleep.dart';
 import 'package:tempo_app/model/task.dart';
 
-class User {
+class CustomUser {
 
   //instanciamos la base de datos
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -19,9 +19,9 @@ class User {
   final List<Task> taskList;
   final List<Sleep> sleepList;
 
-  static User? usuarioActual;
+  static CustomUser? usuarioActual;
 
-  User({
+  CustomUser({
     required this.name,
     required this.lastName,
     this.taskList=const[],  //valor por defecto
@@ -65,7 +65,7 @@ class User {
     }
   }
 
-  static setUsuario(User user){
+  static setUsuario(CustomUser user){
     
   }
 }

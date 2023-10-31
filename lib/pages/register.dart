@@ -3,21 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:tempo_app/pages/login.dart';
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  const Register({super.key,});
 
   @override
   State<Register> createState() => _RegisterState();
-  
-}
-
-registerUser(){
-
 }
 
 class _RegisterState extends State<Register> {
-  //variables de control
+  //--------------Control Variables-------------------
   TextEditingController name = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController gender = TextEditingController();
+  DateTime? birthdate;
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   final List<String> _options = ['Male', 'Female', 'Other'];
   String? _selectedOption;
@@ -34,18 +33,12 @@ class _RegisterState extends State<Register> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        //Controlador fecha
+        birthdate = selectedDate;
       });
     }
   }
   
-  //se ejecuta justo antes del widget main sea lanzado
-  // aca llamamos a la funcion que traerá la data de firestore
-  @override
-  void initState() {
-    super.initState();
-  }
-  //esta es la función
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +118,7 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
-                    //controlador para validar nombre
+                    //Name Controller
                     controller: name,
                     decoration: InputDecoration(
                       filled: true,
@@ -152,7 +145,7 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
-                    //controlador para validar apellido
+                    //LastName Controller
                     controller: lastname,
                     decoration: InputDecoration(
                       filled: true,
@@ -189,6 +182,8 @@ class _RegisterState extends State<Register> {
                     onChanged: (String? newValue) {
                       setState(() {
                         _selectedOption = newValue;
+                        //Genre Controller
+                        gender = _selectedOption as TextEditingController;
                       });
                     },
                     decoration: InputDecoration(
@@ -219,6 +214,7 @@ class _RegisterState extends State<Register> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       GestureDetector(
+                        
                         onTap: () => _selectDate(context),
                         child: Container(
                           height: 56,
@@ -262,6 +258,8 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
+                    //Email Controller
+                    controller: email,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -287,6 +285,8 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                   child: TextField(
+                    //Password Controller
+                    controller: password,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -319,8 +319,6 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          //se llama al usuario
-                          registerUser();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

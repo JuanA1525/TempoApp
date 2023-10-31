@@ -10,8 +10,8 @@ class Task{
   final String? creationDate;
   final String? limitDate;
   final int? duration;
-  final ePriority priority;
   final eState state; 
+  final ePriority priority;
 
   Task({
     required this.name,

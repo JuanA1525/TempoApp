@@ -8,9 +8,11 @@ class CustomUser {
   final String lastName;
   final String mail;
   String? password;
-  final eGenere genere; //enum con los generos
   final int age;
   final double weight;
+  
+  final eGenere genere; //enum con los generos
+  
   final List<Task> taskList;
   final List<Sleep> sleepList;
 

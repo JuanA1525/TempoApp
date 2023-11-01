@@ -17,26 +17,21 @@ class DatabaseServices {
   static CollectionReference tasksCollection = firestore.collection("Tasks");
   static CollectionReference sleepCollection = firestore.collection("Sleeps");
 
+  // DataBase Functions
   static Future<CustomUser?> getUser({required String userMail}) async {
-
     try{
       DocumentSnapshot snapDoc = await usersCollection.doc(userMail).get();
    
       if(snapDoc.exists){
-        print("El usuario existe");
         List<Task> auxTaskList = <Task>[];
         List<Sleep> auxSleepList = <Sleep>[];
         Map<String, dynamic>? userData = snapDoc.data() as Map<String, dynamic>?;
-        print("Se obtuvo el usuario: ${userData.toString()}");
 
         List<String> taskIds = List<String>.from(userData?["TaskList"]);
         List<String> sleepIds = List<String>.from(userData?["SleepList"]);
 
-        print("Se Obtuvo las listas\nTaskList: $taskIds\nSleepList: $sleepIds");
         if(taskIds.isNotEmpty){
-          print("taskIds no vacio.");
           for (String taskId in taskIds){
-            print("ingresamos a: $taskId");
             DocumentSnapshot taskSnapshot = await tasksCollection.doc(taskId).get();
             Task task = Task(
               name: taskSnapshot["Name"],
@@ -54,15 +49,12 @@ class DatabaseServices {
                 taskSnapshot["Priority"] == "Top" ? ePriority.top :
                 ePriority.mid,
             );
-            print("Se crea la tarea: ${task.toString()}");
             auxTaskList.add(task);
           }
         }
 
         if(sleepIds.isNotEmpty){
-          print("sleepIds no vacio.");
           for (String sleepID in sleepIds){
-            print("ingresamos a: $sleepID");
             DocumentSnapshot sleepSnapshot = await sleepCollection.doc(sleepID).get();
             Sleep sleep = Sleep(
               sDate: sleepSnapshot["Date"],
@@ -75,7 +67,6 @@ class DatabaseServices {
                 eQuality.fair,
               duration: double.parse(sleepSnapshot["Duration"]),
             );
-            print("Se crea el sueño: ${sleep.toString()}");
             auxSleepList.add(sleep);
           }
         }
@@ -86,25 +77,15 @@ class DatabaseServices {
           mail: userData["Mail"],
           password: userData["Password"],
           age: int.parse(userData["Age"]),
-          weight: double.parse(userData["Weight"]),
           genere: 
             userData["Genere"] == "Male" ? eGenere.male :
             userData["Genere"] == "Female" ? eGenere.female :
             eGenere.other,
+          birthDate: convStringtoDate(userData["BirthDate"]),
           sleepList: auxSleepList,
           taskList: auxTaskList,
         );
-        print("Se crea el usuario: ${auxUser.toString()}");
-        print(auxUser.age);
-        print(auxUser.weight);
-        print(auxUser.genere);
-        print(auxUser.taskList);
-        print(auxUser.sleepList);
-        print(auxUser.name);
-        print(auxUser.lastName);
-        print(auxUser.mail);
-        print(auxUser.password);
-        
+       
         return auxUser;
       }
       else {
@@ -113,55 +94,147 @@ class DatabaseServices {
     } catch(e){
       throw Exception("Hubo un error en getUser ${e.toString()}");
     }
-  }
-
-  confirmarDatosRegistro({required String name, required String lastName, required String mail, 
-  required String password, required int age, required double weight}){
-    return true;
-  }
-
-  //funcion para añadir los usuarios
-  Future<void> refisterUser({required String name, required String lastName, required String mail, 
-  required String password, required int age, required double weight}) async{
+  } 
+  static Future<bool> userExists({required String userMail}) async {
     try{
-      DocumentReference docRef = usersCollection.doc();
+      DocumentSnapshot snapDoc = await usersCollection.doc(userMail).get();
+      if(snapDoc.exists){
+        return true;
+      }
+      else {
+        return false;
+      } 
+    } catch(e){
+      throw Exception("Hubo un error en userExists ${e.toString()}");
+    }
+  }
+  static Future<void> registerUser({required String name, required String lastName, required String mail, 
+  required String password, required int age, required eGenere genere, required DateTime birthDate}) async{
+    try{
+
+      DocumentReference docRef = usersCollection.doc(mail);
        
-      if(confirmarDatosRegistro(name: name, lastName: lastName, mail: mail, password: password, age: age, weight: weight)){
+      if(confirmarDatosRegistro(name: name, lastName: lastName, mail: mail, password: password, age: age, birthDate: birthDate)){
         
-        CustomUser user = CustomUser(name: name, lastName: lastName, mail: mail, password: password, age: age, weight: weight);
-        CustomUser.usuarioActual = user;
+        if(await userExists(userMail: mail)){
+          // CODIGO DE CONTROL CUANDO EXISTE USUARIO
+          throw Exception("El usuario ya existe");
+        }
+
+        CustomUser.usuarioActual = CustomUser(name: name, lastName: lastName, mail: mail, 
+        password: password, age: age, genere: genere, birthDate: birthDate);
 
         await docRef.set(
           {
-            "Name":name,
-            "LastName":lastName,
             "Mail":mail,
             "Password":password,
-            "Age":age,
-            "Weight":weight,
+            "Name":name,
+            "LastName":lastName,
+            "BirthDate":convDatetoString(birthDate),
+            "Age":age.toString(),
+            "Genere": convertirGeneroAString(genere),
+            "TaskList":[],
+            "SleepList":[],
           }
         );
 
       } else{
         throw Exception("Los datos no son correctos");
       }
-      /*
-      CustomUser user = CustomUser(name: name, lastName: lastName, mail: mail, password: password, age: age, weight: weight)
-      CustomUser.usuarioActual = user;
-      CustomUser.setUsuario(user);
-
-      await docRef.set(
-        {
-          "Name":name.text,
-          "LastName":lastname.text,
-        }
-      );
-      */
     }catch(e){
       throw Exception("Hubo un error en addUser $e");
     }
   }
+  
+  // DataTypes Functions
+  static int calcularEdad(DateTime fechaNacimiento) {
+    try {
+      final now = DateTime.now();
+      final edad = now.year - fechaNacimiento.year;
 
+      if (now.month < fechaNacimiento.month ||
+          (now.month == fechaNacimiento.month && now.day < fechaNacimiento.day)) {
+        return edad - 1;
+      }
+      return edad;
+    } catch (e) {
+      throw Exception("Error al calcular la edad: $e");
+    }
+  }
+  static DateTime convStringtoDate(String fecha) {
+    try {
+      // Divide la cadena en día, mes y año
+      List<String> partes = fecha.split('/');
+      
+      if (partes.length != 3) {
+        throw FormatException("El formato de fecha debe ser dd/mm/yyyy");
+      }
+      
+      int dia = int.parse(partes[0]);
+      int mes = int.parse(partes[1]);
+      int anio = int.parse(partes[2]);
+      
+      // Crea y devuelve el objeto DateTime
+      return DateTime(anio, mes, dia);
+    } catch (e) {
+      throw Exception("Error al convertir la fecha: $e");
+    }
+  }
+  static String convDatetoString(DateTime fecha) {
+    try{
+      final dia = fecha.day.toString().padLeft(2, '0'); // Agrega ceros a la izquierda si es necesario
+      final mes = fecha.month.toString().padLeft(2, '0');
+      final anio = fecha.year;
+
+      return "$dia/$mes/$anio";
+    } catch (e) {
+      throw Exception("Error al convertir la fecha: $e");
+    }
+  }
+  static String convertirGeneroAString(eGenere genero) {
+    try{
+      switch (genero) {
+        case eGenere.male:
+          return "Male";
+        case eGenere.female:
+          return "Female";
+        default:
+          return "Other"; // Valor predeterminado en caso de un género desconocido
+      }
+    } catch (e) {
+      throw Exception("Error al convertir el genero: $e");
+    }
+  }
+  //Funcion agregar Task
+  /*
+  static Future<bool> addTask({required Task task}) async{
+    try{
+      DocumentReference docRef = tasksCollection.doc();
+      task.id = docRef.id;
+      CustomUser.usuarioActual?.taskList.add(task);
+      await docRef.set(
+        {
+          "Name":task.name,
+          "Description":task.description,
+          "CreationDate":task.creationDate,
+          "LimitDate":task.limitDate,
+          "Duration":task.duration,
+          "State":task.state.toString(),
+          "Priority":task.priority.toString(),
+        }
+      );
+      return true;
+    }catch(e){
+      throw Exception("Hubo un error en addTask $e");
+    }
+  }
+ */
+
+  // UNIMPLEMENTED FUNCTIONS
+  static confirmarDatosRegistro({required String name, required String lastName, required String mail, 
+  required String password, required int age, required DateTime birthDate}){
+    return true;
+  }
   static setUsuario(CustomUser user){
     
   }

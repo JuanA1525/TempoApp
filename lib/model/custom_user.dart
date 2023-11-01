@@ -9,7 +9,7 @@ class CustomUser {
   final String mail;
   String? password;
   final int age;
-  final double weight;
+  final DateTime? birthDate;
   
   final eGenere genere; //enum con los generos
   
@@ -19,12 +19,12 @@ class CustomUser {
   static CustomUser? usuarioActual;
 
   CustomUser({
+    required this.birthDate,
     required this.name,
     required this.lastName,
     required this.mail,
     required this.password,
     required this.age,
-    required this.weight,
     
     this.sleepList=const[],  //valor por defecto
     this.taskList=const[],  //valor por defecto

@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
+import 'package:tempo_app/enum/genre.dart';
 import 'package:tempo_app/pages/login.dart';
+import '../Service/database_services.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key,});
@@ -12,13 +14,13 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   //--------------Control Variables-------------------
-  TextEditingController name = TextEditingController();
-  TextEditingController lastname = TextEditingController();
-  TextEditingController gender = TextEditingController();
-  DateTime? birthdate;
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-
+  TextEditingController cName = TextEditingController();
+  TextEditingController cLastname = TextEditingController();
+  eGenere cGender = eGenere.none;
+  DateTime? cBirthdate;
+  TextEditingController cMail = TextEditingController();
+  TextEditingController cPassword = TextEditingController();
+  
   final List<String> _options = ['Male', 'Female', 'Other'];
   String? _selectedOption;
 
@@ -35,7 +37,7 @@ class _RegisterState extends State<Register> {
       setState(() {
         selectedDate = picked;
         //Controlador fecha
-        birthdate = selectedDate;
+        cBirthdate = selectedDate;
       });
     }
   }
@@ -120,7 +122,7 @@ class _RegisterState extends State<Register> {
                   ),
                   child: TextField(
                     //Name Controller
-                    controller: name,
+                    controller: cName,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -147,7 +149,7 @@ class _RegisterState extends State<Register> {
                   ),
                   child: TextField(
                     //LastName Controller
-                    controller: lastname,
+                    controller: cLastname,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -180,11 +182,23 @@ class _RegisterState extends State<Register> {
                         child: Text(option),
                       );
                     }).toList(),
-                    onChanged: (String? newValue) {
+                      onChanged: (String? newValue) {
                       setState(() {
                         _selectedOption = newValue;
-                        //Genre Controller
-                        gender = _selectedOption as TextEditingController;
+                        switch (_selectedOption) {
+                          case "Male":
+                            cGender = eGenere.male;
+                            break;
+                          case "Female":
+                            cGender = eGenere.female;
+                            break;
+                          case "Other":
+                            cGender = eGenere.other;
+                            break;
+                          default:
+                            cGender = eGenere.none;
+                            break;
+                        }
                       });
                     },
                     decoration: InputDecoration(
@@ -260,7 +274,7 @@ class _RegisterState extends State<Register> {
                   ),
                   child: TextField(
                     //Email Controller
-                    controller: email,
+                    controller: cMail,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -287,7 +301,7 @@ class _RegisterState extends State<Register> {
                   ),
                   child: TextField(
                     //Password Controller
-                    controller: password,
+                    controller: cPassword,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -320,7 +334,8 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          DatabaseServices.getUser(userMail: "juliangutierrez@gmail.com");
+                          DatabaseServices.registerUser(name: cName.text, lastName: cLastname.text, mail: cMail.text, 
+                          password: cPassword.text, age: DatabaseServices.calcularEdad(cBirthdate!), genere: cGender, birthDate: cBirthdate!);
                           Navigator.push(
                               context,
                               MaterialPageRoute(

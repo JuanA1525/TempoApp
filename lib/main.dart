@@ -4,6 +4,7 @@ import 'package:tempo_app/firebase_options.dart';
 import 'package:tempo_app/pages/login.dart';
 
 Future<void> main() async {
+  
   WidgetsFlutterBinding.ensureInitialized(); //Firebase: todas las dependencias de flutter esten inicializadas
   runApp(const MainApp());
 

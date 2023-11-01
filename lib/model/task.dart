@@ -1,5 +1,3 @@
-import 'package:flutter/scheduler.dart';
-
 import '../enum/priority.dart';
 import '../enum/state.dart';
 

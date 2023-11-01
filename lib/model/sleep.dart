@@ -4,7 +4,7 @@ class Sleep{
 
   final String sDate;
   final eQuality quality; //enum de la calidad
-  final int duration; //en minutos
+  final double duration; //en minutos
   
   Sleep({
     required this.sDate,

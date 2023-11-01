@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/pages/login.dart';
 
 class Register extends StatefulWidget {
@@ -319,6 +320,7 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
+                          DatabaseServices.getUser(userMail: "juliangutierrez@gmail.com");
                           Navigator.push(
                               context,
                               MaterialPageRoute(

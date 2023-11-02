@@ -327,23 +327,60 @@ class DatabaseServices {
     String errores = "";
     //contiene numeros o caracteres especiales
     final RegExp vName = RegExp(r'^[a-zA-Z]+$');
+    //Validación de apellido con referencia de emails (caracteres especiales-numeros-@)
+    /*
     final RegExp vLastname = RegExp(
-      r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
-      caseSensitive: false,
-      multiLine: false,
-    );
-    if (name.isEmpty || vName.hasMatch(name) || name.length < 4) {
-      errores += "Invalidate Name\n";
+    r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
+    caseSensitive: false,
+    multiLine: false,);
+    */
+    final RegExp vLastname = RegExp(r'^[a-zA-Z]+$');
+    final RegExp vMail = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final RegExp vPassword = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$');
+    
+    //Verificación de validaciones
+    if(name.isEmpty){
+      errores += "Invalidate Name. Name is Empty\n";
     }
-    if (lastName.isEmpty || vName.hasMatch(lastName) || lastName.length < 4) {
-      errores += "Invalidate Lastname\n";
+      else if(!vName.hasMatch(name)){
+        errores += "Invalidate Name. Name does not contain only letters\n";
+      }
+      else if(name.length<4){
+        errores += "Invalidate Name. Name must contain more than 4 letters\n";
+      }
+    
+    if(lastName.isEmpty){
+      errores += "Invalidate LastName. LastName is Empty\n";
     }
-    if (mail.isEmpty || vLastname.hasMatch(mail) || mail.length < 12) {
-      errores += "Invalidate Mail\n";
+      else if(!vLastname.hasMatch(lastName)){
+        errores += "Invalidate LastName. LastName does not contain only letters\n";
+      }
+      else if(lastName.length<4){
+        errores += "Invalidate LastName. LastName must contain more than 4 letters\n";
+      }
+    
+    if(mail.isEmpty){
+      errores += "Invalidate Email. Email is Empty\n";
     }
-    if (password.isEmpty || password.length < 9) {
-      errores += "Invalidate Password\n";
+      else if(!vMail.hasMatch(mail)){
+        errores += "Invalidate Email. Email does not meet the specific conditions, please check your Email\n";
+      }
+      else if(mail.length<7 || mail.length>32){
+        errores += "Invalidate Email. Email does not have a suitable size. Size should be 7-32 characters\n";
+      }
+    
+    if(password.isEmpty){
+      errores += "Invalidate Password. Password is Empty\n";
     }
+      
+      else if(!vPassword.hasMatch(password)){
+        errores += "Invalidate Password. Password does not meet the specific conditions, please check your Password\n";
+      }
+      
+      else if(password.length<6){
+        errores += "Invalidate Password. Password must contain more than 8 letters\n";
+      }
+      
     //retornar vacío, no tiene errores
     return errores;
   }

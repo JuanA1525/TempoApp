@@ -111,13 +111,13 @@ class DatabaseServices {
       throw Exception("Hubo un error en userExists ${e.toString()}");
     }
   }
-  static Future<void> registerUser({required String name, required String lastName, required String mail, 
+  static Future<String> registerUser({required String name, required String lastName, required String mail, 
   required String password, required int age, required eGenere genere, required DateTime birthDate}) async{
     try{
 
       DocumentReference docRef = usersCollection.doc(mail);
-       
-      if(confirmarDatosRegistro(name: name, lastName: lastName, mail: mail, password: password, age: age, birthDate: birthDate)){
+      String errores = confirmarDatosRegistro(name: name, lastName: lastName, mail: mail, password: password, age: age, birthDate: birthDate);
+      if(errores.isEmpty){
         
         if(await userExists(userMail: mail)){
           // CODIGO DE CONTROL CUANDO EXISTE USUARIO
@@ -140,9 +140,10 @@ class DatabaseServices {
             "SleepList":[],
           }
         );
-
+        return errores;
       } else{
-        throw Exception("Los datos no son correctos");
+        //cadena está con errores
+        return confirmarDatosRegistro(name: name, lastName: lastName, mail: mail, password: password, age: age, birthDate: birthDate);
       }
     }catch(e){
       throw Exception("Hubo un error en addUser $e");
@@ -278,9 +279,30 @@ class DatabaseServices {
   }
 
   // UNIMPLEMENTED FUNCTIONS
-  static confirmarDatosRegistro({required String name, required String lastName, required String mail, 
+  static String confirmarDatosRegistro({required String name, required String lastName, required String mail, 
   required String password, required int age, required DateTime birthDate}){
-    return true;
+    String errores = "";
+    //contiene numeros o caracteres especiales
+    final RegExp vName = RegExp(r'^[a-zA-Z]+$');
+    final RegExp vLastname = RegExp(
+    r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
+    caseSensitive: false,
+    multiLine: false,
+  );
+    if(name.isEmpty || vName.hasMatch(name) || name.length<4){
+      errores += "Invalidate Name\n";
+    }
+    if(lastName.isEmpty || vName.hasMatch(lastName) || lastName.length<4){
+      errores += "Invalidate Lastname\n";
+    }
+    if(mail.isEmpty || vLastname.hasMatch(mail) || mail.length < 12){
+      errores += "Invalidate Mail\n";
+    }
+    if(password.isEmpty || password.length < 9){
+      errores += "Invalidate Password\n";
+    }
+    //retornar vacío, no tiene errores
+    return errores;
   }
   static confirmarDatosTask({required String name, required String description,  String? creationDate,  
   String? limitDate, required ePriority priority, required eState state,  int? duration}){

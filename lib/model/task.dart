@@ -6,8 +6,8 @@ class Task{
   int? id;
   final String name;
   final String description;
-  final String? creationDate;
-  final String? limitDate;
+  final DateTime? creationDate;
+  final DateTime? limitDate;
   final int? duration;
   final eState state; 
   final ePriority priority;

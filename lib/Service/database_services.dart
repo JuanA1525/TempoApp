@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../enum/genre.dart';
 import '../enum/priority.dart';
@@ -37,8 +39,8 @@ class DatabaseServices {
               id: taskSnapshot["Id"],
               name: taskSnapshot["Name"],
               description: taskSnapshot["Description"],
-              creationDate: taskSnapshot["CreationDate"],
-              limitDate: taskSnapshot["LimitDate"],
+              creationDate: convStringtoDate(taskSnapshot["CreationDate"]),
+              limitDate: convStringtoDate(taskSnapshot["LimitDate"]),
               duration: int.parse(taskSnapshot["Duration"]),
               state: 
                 taskSnapshot["State"] == "Done" ? eState.done :
@@ -207,26 +209,56 @@ class DatabaseServices {
     }
   }
 
-  static Future<bool> addTask({required Task task}) async{
+  static Future<bool> addTask({required String name, required String description,  DateTime? creationDate,  DateTime? limitDate, required ePriority priority, required eState state,  int? duration}) async{
     try{
       //Identificador de tarea
-      task.id = ((CustomUser.usuarioActual?.taskList.length)!+1);
-
-      DocumentReference docRef = tasksCollection.doc(task.id.toString());
-      CustomUser.usuarioActual?.taskList.add(task);
-      await docRef.set(
-        {
-          "Id":task.id.toString(),
-          "Name":task.name,
-          "Description":task.description,
-          "CreationDate":task.creationDate,
-          "LimitDate":task.limitDate,
-          "Duration":task.duration,
-          "State":task.state.toString(),
-          "Priority":task.priority.toString(),
+      int contador = ((CustomUser.usuarioActual?.taskList.length)!+1);
+      if(confirmarDatosTask(name: name, description: description, priority: priority, state: state, duration: duration)){
+        Task task = Task(
+              id: contador,
+              name: name,
+              description: description,
+              creationDate: creationDate,
+              limitDate: limitDate,
+              duration: duration,
+              state: state,
+              priority: priority
+            );
+        DocumentReference docRef = tasksCollection.doc(task.id.toString());
+        CustomUser.usuarioActual?.taskList.add(task);
+        //el usuario puede no asignar una fecha de inicio y una fecha fin
+        if(task.creationDate == null && task.limitDate == null){
+          await docRef.set(
+          {
+            "Id":task.id.toString(),
+            "Name":task.name,
+            "Description":task.description,
+            "CreationDate": "null",
+            "LimitDate": "null",
+            "Duration":task.duration.toString(),
+            "State":task.state.toString(),
+            "Priority":task.priority.toString(),
+         }
+        );
+        return true;
         }
-      );
-      return true;
+        else{
+          await docRef.set(
+          {
+            "Id":task.id.toString(),
+            "Name":task.name,
+            "Description":task.description,
+            "CreationDate": convDatetoString(task.creationDate!),
+            "LimitDate": convDatetoString(task.limitDate!),
+            "Duration":task.duration.toString(),
+            "State":task.state.toString(),
+            "Priority":task.priority.toString(),
+          }
+        );
+        return true;
+        }
+      }
+      return false;
     }catch(e){
       throw Exception("Hubo un error en addTask $e");
     }
@@ -249,6 +281,16 @@ class DatabaseServices {
   static confirmarDatosRegistro({required String name, required String lastName, required String mail, 
   required String password, required int age, required DateTime birthDate}){
     return true;
+  }
+  static confirmarDatosTask({required String name, required String description,  String? creationDate,  
+  String? limitDate, required ePriority priority, required eState state,  int? duration}){
+    //Por ahora:
+    if(duration! > 0){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   static setUsuario(CustomUser user){
     

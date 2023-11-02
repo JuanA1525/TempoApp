@@ -34,6 +34,7 @@ class DatabaseServices {
           for (String taskId in taskIds){
             DocumentSnapshot taskSnapshot = await tasksCollection.doc(taskId).get();
             Task task = Task(
+              id: taskSnapshot["Id"],
               name: taskSnapshot["Name"],
               description: taskSnapshot["Description"],
               creationDate: taskSnapshot["CreationDate"],
@@ -205,15 +206,17 @@ class DatabaseServices {
       throw Exception("Error al convertir el genero: $e");
     }
   }
-  //Funcion agregar Task
-  /*
+
   static Future<bool> addTask({required Task task}) async{
     try{
-      DocumentReference docRef = tasksCollection.doc();
-      task.id = docRef.id;
+      //Identificador de tarea
+      task.id = ((CustomUser.usuarioActual?.taskList.length)!+1);
+
+      DocumentReference docRef = tasksCollection.doc(task.id.toString());
       CustomUser.usuarioActual?.taskList.add(task);
       await docRef.set(
         {
+          "Id":task.id.toString(),
           "Name":task.name,
           "Description":task.description,
           "CreationDate":task.creationDate,
@@ -228,7 +231,19 @@ class DatabaseServices {
       throw Exception("Hubo un error en addTask $e");
     }
   }
- */
+ 
+  static bool deleteTask({required Task task}){
+    try{
+      if(CustomUser.usuarioActual!.taskList.isNotEmpty){
+        CustomUser.usuarioActual?.taskList.remove(task);
+        tasksCollection.doc(task.id.toString()).delete();
+        return true;
+      }
+      return false;
+    }catch(e){
+      throw Exception("Hubo un error en deleteTask $e");
+    }
+  }
 
   // UNIMPLEMENTED FUNCTIONS
   static confirmarDatosRegistro({required String name, required String lastName, required String mail, 

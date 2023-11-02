@@ -3,6 +3,7 @@ import '../enum/state.dart';
 
 class Task{
   //atributos
+  int? id;
   final String name;
   final String description;
   final String? creationDate;
@@ -12,6 +13,7 @@ class Task{
   final ePriority priority;
 
   Task({
+    this.id=0,
     required this.name,
     required this.description,
     this.creationDate,

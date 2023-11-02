@@ -25,6 +25,8 @@ flutter:
   - assets/login_bg.png
   - assets/register_bg.png
   - assets/task_icon.svg
+  - assets/reloj_checked.png
+  - assets/temp_clock.png
 
 fonts:
   - family: Poppins

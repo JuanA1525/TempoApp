@@ -33,16 +33,41 @@ class Home extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
                   color: Colors.transparent,
-                  child: const Center(
-                      child: Text('Tempo',
-                      maxLines: 3,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold
+                  child: const Column(
+                    children: [
+
+                         Center(
+                          child: Text('Welcome',
+                          maxLines: 3,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 160, 240),
+                              fontSize: 45,
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Color.fromARGB(98, 0, 0, 0),
+                                  offset: Offset(2, 2), // Desplazamiento en x y y
+                                  blurRadius: 5, // Radio de difuminación
+                                ),
+                              ],
+                            ),
+                            
+                          )
                         ),
-                      )
-                    ),
+
+                        Center(
+                          child: Text('@Username',
+                          maxLines: 3,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        ),
+
+                    ],
+                  ),
                 ),
               ),
                 
@@ -51,15 +76,67 @@ class Home extends StatelessWidget {
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 10),
-                  child: const Text('Your personal time tracker',
+                  child: const Text("You won't regret starting to manage your time well.",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 )
               ),
+              
+
+              const SizedBox(height: 50,),
+              
+              Image.asset(
+              'assets/temp_clock.png',
+              width: 200,
+              height: 200,
+              fit: BoxFit.contain,
+            ),
+
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 50),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow:[
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3)
+                    )
+                  ],
+                ),
+                height: 60,
+                width: 140,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Let's start!",
+                        maxLines: 3,
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios, color: Colors.blueAccent, size: 30,),
+                      ],
+                    )
+                  ),
+                ),
+              ),
+            )
 
             ],
           ),
@@ -67,9 +144,11 @@ class Home extends StatelessWidget {
 
           // ----------- BUTTON Home ------------
               
-              Center(
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
                 child: Container(
-                  margin: const EdgeInsets.only(top: 836),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow:[
@@ -115,7 +194,8 @@ class Home extends StatelessWidget {
 
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                          _mostrarPopup(context);
                         },
                         child: const Icon(Icons.bed, color: Colors.blueAccent, size: 30,),
                       ),
@@ -137,4 +217,25 @@ class Home extends StatelessWidget {
       )
     );
   }
+
+  void _mostrarPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Texto en el Popup'),
+          content: Text('Este es el texto que se mostrará en el popup.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

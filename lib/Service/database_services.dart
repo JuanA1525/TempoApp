@@ -199,7 +199,7 @@ class DatabaseServices {
       List<String> partes = fecha.split('/');
 
       if (partes.length != 3) {
-        throw FormatException("El formato de fecha debe ser dd/mm/yyyy");
+        throw const FormatException("El formato de fecha debe ser dd/mm/yyyy");
       }
 
       int dia = int.parse(partes[0]);

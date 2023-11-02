@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tempo_app/pages/dialog_helper.dart';
 
 
 
@@ -195,7 +196,7 @@ class Home extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                          _mostrarPopup(context);
+                          DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 carcteres.");
                         },
                         child: const Icon(Icons.bed, color: Colors.blueAccent, size: 30,),
                       ),
@@ -218,24 +219,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _mostrarPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Texto en el Popup'),
-          content: Text('Este es el texto que se mostrará en el popup.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cerrar'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+
+  
 
 }

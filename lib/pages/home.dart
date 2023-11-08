@@ -145,78 +145,82 @@ class Home extends StatelessWidget {
 
           // ----------- BUTTON Home ------------
               
-              Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow:[
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3)
-                      )
-                    ],
-                  ),
-                  height: 60,
-                  width: 414,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        },
-                        child: SvgPicture.asset(
-                          'assets/task_icon.svg', 
-                          color: Colors.blueAccent,
-                          width: 30,
-                          height: 30,
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        },
-                        child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 30,),
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        },
-                        child: const Icon(Icons.home, color: Colors.blueAccent, size: 30,),
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                          DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
-                        },
-                        child: const Icon(Icons.bed, color: Colors.blueAccent, size: 30,),
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
-                        },
-                        child: const Icon(Icons.person, color: Colors.blueAccent, size: 30,),
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
+              navbar(context),
 
 
         ],
       )
     );
+  }
+
+  static Positioned navbar(BuildContext context) {
+    return Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow:[
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3)
+                    )
+                  ],
+                ),
+                height: 70,
+                width: 414,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      },
+                      child: SvgPicture.asset(
+                        'assets/task_icon.svg', 
+                        color: Colors.blueAccent,
+                        width: 32,
+                        height: 32,
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      },
+                      child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      },
+                      child: const Icon(Icons.home, color: Colors.blueAccent, size: 32,),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
+                      },
+                      child: const Icon(Icons.bed, color: Colors.blueAccent, size: 32,),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
+                      },
+                      child: const Icon(Icons.person, color: Colors.blueAccent, size: 32,),
+                    ),
+
+                  ],
+                ),
+              ),
+            );
   }
 
 

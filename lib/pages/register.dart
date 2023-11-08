@@ -20,7 +20,7 @@ class _RegisterState extends State<Register> {
   TextEditingController cMail = TextEditingController();
   TextEditingController cPassword = TextEditingController();
   
-  final List<String> _options = ['Male', 'Female', 'Other'];
+  final List<String> _options = ['Masculino', 'Femenino'];
   String? _selectedOption;
 
   DateTime selectedDate = DateTime.now();
@@ -68,7 +68,7 @@ class _RegisterState extends State<Register> {
                     color: Colors.transparent,
                     child: const Center(
                         child: Text(
-                      'Register',
+                      'Registrate',
                       maxLines: 3,
                       style: TextStyle(
                           color: Colors.white,
@@ -82,13 +82,14 @@ class _RegisterState extends State<Register> {
                     child: Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: const Text(
-                    'Become a Tempo user',
+                    'Convertite en un usuario Tempo',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
-                  ),
-                )),
+                    ),
+                  )
+                ),
 
                 const SizedBox(
                   height: 80,
@@ -97,14 +98,15 @@ class _RegisterState extends State<Register> {
                 // ----------- TEXT REGISTER ------------
 
                 Container(
-                    margin: const EdgeInsets.only(left: 30),
-                    child: const Text(
-                      'Let us know you better',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    )),
+                  margin: const EdgeInsets.only(left: 30),
+                  child: const Text(
+                    'Dejanos conocerte mejor',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  )
+                ),
 
                 // ----------- INPUT NAME ------------
 
@@ -125,7 +127,7 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Name',
+                      hintText: 'Nombre',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
@@ -152,7 +154,7 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Lastname',
+                      hintText: 'Apellidos',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
@@ -185,14 +187,11 @@ class _RegisterState extends State<Register> {
                       setState(() {
                         _selectedOption = newValue;
                         switch (_selectedOption) {
-                          case "Male":
+                          case "Masculino":
                             cGender = eGenere.male;
                             break;
-                          case "Female":
+                          case "Femenino":
                             cGender = eGenere.female;
-                            break;
-                          case "Other":
-                            cGender = eGenere.other;
                             break;
                           default:
                             cGender = eGenere.none;
@@ -203,7 +202,7 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xFFFFFFFF),
-                      hintText: 'Select your gender',
+                      hintText: 'Seleccione su género',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
@@ -277,7 +276,7 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Email',
+                      hintText: 'Correo electrónico',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
@@ -304,7 +303,7 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Password',
+                      hintText: 'Contraseña',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),

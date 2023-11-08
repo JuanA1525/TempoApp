@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
                     children: [
 
                          Center(
-                          child: Text('Welcome',
+                          child: Text('Bienvenido!',
                           maxLines: 3,
                             style: TextStyle(
                               color: Color.fromARGB(255, 0, 160, 240),
@@ -76,8 +76,8 @@ class Home extends StatelessWidget {
 
               Center(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: const Text("You won't regret starting to manage your time well.",
+                  margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  child: const Text("No te vas a arrepentir de usar Tempo y manejar tu tiempo!",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -114,7 +114,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 height: 60,
-                width: 140,
+                width: 160,
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
@@ -123,7 +123,7 @@ class Home extends StatelessWidget {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text("Let's start!",
+                        Text("Comencemos",
                         maxLines: 3,
                           style: TextStyle(
                             color: Colors.blueAccent,
@@ -196,7 +196,7 @@ class Home extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                          DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 carcteres.");
+                          DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
                         },
                         child: const Icon(Icons.bed, color: Colors.blueAccent, size: 30,),
                       ),

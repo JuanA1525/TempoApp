@@ -29,6 +29,6 @@ class CustomUser {
     this.sleepList=const[],  //valor por defecto
     this.taskList=const[],  //valor por defecto
     
-    this.genere= eGenere.other, // Valor por defecto
+    this.genere= eGenere.none, // Valor por defecto
   });
 }

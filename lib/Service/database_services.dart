@@ -89,7 +89,7 @@ class DatabaseServices {
               ? eGenere.male
               : userData["Genere"] == "Female"
                   ? eGenere.female
-                  : eGenere.other,
+                  : eGenere.none,
           birthDate: convStringtoDate(userData["BirthDate"]),
           sleepList: auxSleepList,
           taskList: auxTaskList,
@@ -235,7 +235,7 @@ class DatabaseServices {
         case eGenere.female:
           return "Female";
         default:
-          return "Other"; // Valor predeterminado en caso de un género desconocido
+          return "None"; // Valor predeterminado en caso de un género desconocido
       }
     } catch (e) {
       throw Exception("Error al convertir el genero: $e");

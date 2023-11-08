@@ -3,6 +3,5 @@ enum eGenere{
   male,
   female,
   none,
-  other,
 }
 

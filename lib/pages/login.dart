@@ -31,16 +31,29 @@ class Login extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
                   color: Colors.transparent,
-                  child: const Center(
-                      child: Text('Tempo',
-                      maxLines: 3,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: Text('Tempo',
+                        maxLines: 3,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ),
+
+                      Image.asset(
+                        'assets/temp_clock.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.contain,
+                      ),
+
+                    ],
+                  ),
                 ),
               ),
                 
@@ -49,7 +62,7 @@ class Login extends StatelessWidget {
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 10),
-                  child: const Text('Your personal time tracker',
+                  child: const Text('Tu plataforma de gestión de tiempo',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -65,7 +78,7 @@ class Login extends StatelessWidget {
 
               Container(
                 margin: const EdgeInsets.only(left: 30),
-                child: const Text('Login',
+                child: const Text('Iniciar Sesión',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -92,7 +105,7 @@ class Login extends StatelessWidget {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    hintText: 'Email',
+                    hintText: 'Correo electrónico',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none
@@ -119,7 +132,7 @@ class Login extends StatelessWidget {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    hintText: 'Password',
+                    hintText: 'Contraseña',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none
@@ -139,10 +152,10 @@ class Login extends StatelessWidget {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Not registered? Clic here',
+                      Text('Aun no estas registrado? Crea una cuenta',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold
                         ),
                       )

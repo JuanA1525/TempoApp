@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
         children: [
           // Fondo de imagen
             Image.asset(
-              'assets/login_bg.png',
+              'assets/register_bg.png',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,

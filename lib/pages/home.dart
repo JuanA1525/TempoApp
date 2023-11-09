@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tempo_app/pages/dialog_helper.dart';
+import 'package:tempo_app/pages/tasks.dart';
 
 
 
@@ -178,7 +179,7 @@ class Home extends StatelessWidget {
                     
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tasks()));
                       },
                       child: SvgPicture.asset(
                         'assets/task_icon.svg', 

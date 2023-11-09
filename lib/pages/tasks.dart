@@ -142,7 +142,7 @@ class _TasksState extends State<Tasks> {
 
               Container(
                 width: 400,
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 20, bottom: 75),
                 child: ListView.builder(
                   shrinkWrap: true, // Para que el ListView.builder se ajuste al contenido
                   itemCount: _tasks.length,

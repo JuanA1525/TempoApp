@@ -15,7 +15,7 @@ class _TasksState extends State<Tasks> {
   final _formKey = GlobalKey<FormState>();
   final _tasks = <String>[];
 
-  TextEditingController _taskController = TextEditingController();
+  final TextEditingController _taskController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _TasksState extends State<Tasks> {
 
               // Resto del contenido de la pantalla Tasks
               Container(
-                margin: EdgeInsets.all(25),
+                margin: const EdgeInsets.all(25),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.blueAccent,
@@ -110,9 +110,9 @@ class _TasksState extends State<Tasks> {
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(Colors.blue),
-                              shape: MaterialStateProperty.all(CircleBorder()),
+                              shape: MaterialStateProperty.all(const CircleBorder()),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.send,
                               color: Colors.white,
                             ),
@@ -129,7 +129,7 @@ class _TasksState extends State<Tasks> {
               
 
               Container(
-                margin: EdgeInsets.only(left: 25),
+                margin: const EdgeInsets.only(left: 25),
                 child: const Text(
                   "Lista de tareas:",
                   style: TextStyle(
@@ -142,19 +142,19 @@ class _TasksState extends State<Tasks> {
 
               Container(
                 width: 400,
-                margin: EdgeInsets.only(top: 20, bottom: 75),
+                margin: const EdgeInsets.only(top: 20, bottom: 75),
                 child: ListView.builder(
                   shrinkWrap: true, // Para que el ListView.builder se ajuste al contenido
                   itemCount: _tasks.length,
                   itemBuilder: (context, index) {
                     if(_tasks.isEmpty){
                         
-                      return Text("Aun no hay tareas");
+                      return const Text("Aun no hay tareas");
                     
 
                     }else{
                       return Container(
-                        margin: EdgeInsets.only(right: 30, left: 30, top: 10, bottom: 10),
+                        margin: const EdgeInsets.only(right: 30, left: 30, top: 10, bottom: 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),

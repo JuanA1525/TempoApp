@@ -332,12 +332,12 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          DatabaseServices.registerUser(name: cName.text, lastName: cLastname.text, mail: cMail.text, 
+                          DatabaseServices.registerUser(context: context, name: cName.text, lastName: cLastname.text, mail: cMail.text, 
                           password: cPassword.text, age: DatabaseServices.calcularEdad(cBirthdate!), genere: cGender, birthDate: cBirthdate!);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Login()));        
+                                  builder: (context) => Login()));        
                         },
                         child: const Icon(
                           Icons.check,

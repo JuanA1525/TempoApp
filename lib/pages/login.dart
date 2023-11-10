@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tempo_app/Service/database_services.dart';
 import 'dart:ui';
-import 'package:tempo_app/pages/home.dart';
 import 'package:tempo_app/pages/register.dart';
 
+import 'home.dart';
+
 class Login extends StatelessWidget {
-  const Login({super.key});
+  Login({super.key});
+  final TextEditingController cMail = TextEditingController();
+  final TextEditingController cPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +27,7 @@ class Login extends StatelessWidget {
             // ListView superpuesto
           ListView(
             children: [
-
               const SizedBox(height: 150,),
-
-
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
@@ -102,6 +103,7 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
+                  controller: cMail,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -129,6 +131,7 @@ class Login extends StatelessWidget {
                   ],
                 ),
                 child: TextField(
+                  controller: cPassword,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -185,8 +188,11 @@ class Login extends StatelessWidget {
                   width: 100,
                   child: Center(
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      onTap: () async {
+                        if(await DatabaseServices.login(mail: cMail.text, password: cPassword.text)) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        }
                       },
                       child: const Icon(Icons.arrow_forward_ios, color: Colors.blueAccent, size: 30,),
                     ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tempo_app/Service/database_services.dart';
+import 'package:tempo_app/enum/priority.dart';
+import 'package:tempo_app/enum/state.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -179,7 +182,7 @@ class Home extends StatelessWidget {
                     
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tasks()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Tasks()));
                       },
                       child: SvgPicture.asset(
                         'assets/task_icon.svg', 
@@ -191,7 +194,8 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        DatabaseServices.addTask(name: "Nombre de Task", description: "description", priority: ePriority.high, state: eState.toDo, duration: 12);
                       },
                       child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),
                     ),
@@ -206,14 +210,15 @@ class Home extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
+                        //DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
+                        DatabaseServices.updateUser();
                       },
                       child: const Icon(Icons.bed, color: Colors.blueAccent, size: 32,),
                     ),
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                       },
                       child: const Icon(Icons.person, color: Colors.blueAccent, size: 32,),
                     ),

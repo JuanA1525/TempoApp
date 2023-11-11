@@ -5,7 +5,6 @@ import 'package:tempo_app/enum/state.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tempo_app/pages/dialog_helper.dart';
 import 'package:tempo_app/pages/tasks.dart';
 
 

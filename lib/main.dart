@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: Login()
+      home: const Login()
     );
   }
 }

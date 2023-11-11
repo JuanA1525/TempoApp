@@ -4,6 +4,8 @@ import 'package:tempo_app/model/task.dart';
 
 class CustomUser {
 
+  int? taskCount;
+  int? sleepCount;
   final String name;
   final String lastName;
   final String mail;
@@ -19,6 +21,9 @@ class CustomUser {
   static CustomUser? usuarioActual;
 
   CustomUser({
+    this.taskCount = 0,
+    this.sleepCount = 0,
+    
     required this.birthDate,
     required this.name,
     required this.lastName,

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/pages/dialog_helper.dart';
@@ -7,7 +9,7 @@ import 'package:tempo_app/pages/register.dart';
 import 'home.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();

@@ -359,7 +359,7 @@ class _TasksState extends State<Tasks> {
 
                     }else{
                       return Container(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
                         margin: const EdgeInsets.only(right: 30, left: 30, top: 10, bottom: 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -374,25 +374,21 @@ class _TasksState extends State<Tasks> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  child: Text(
-                                    CustomUser.usuarioActual!.taskList[index].name,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 2, 78, 209)
-                                    ),
+                                Text(
+                                  CustomUser.usuarioActual!.taskList[index].name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 2, 78, 209)
                                   ),
                                 ),
                                 
-                                Container(
-                                  child: Text(
-                                    CustomUser.usuarioActual!.taskList[index].description!,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 25, 25, 25)
-                                    ),
+                                Text(
+                                  CustomUser.usuarioActual!.taskList[index].description!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 25, 25, 25)
                                   ),
                                 ),
                                 
@@ -404,23 +400,19 @@ class _TasksState extends State<Tasks> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
 
-                                Container(
-                                  child: Text(
-                                    "Prioridad: ${CustomUser.usuarioActual!.getPriority(index)}",
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black
-                                    ),
+                                Text(
+                                  "Prioridad: ${CustomUser.usuarioActual!.getPriority(index)}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.black
                                   ),
                                 ),
 
-                                Container(
-                                  child: Text(
-                                    "Estado: ${CustomUser.usuarioActual!.getState(index)}",
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black
-                                    ),
+                                Text(
+                                  "Estado: ${CustomUser.usuarioActual!.getState(index)}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.black
                                   ),
                                 ),
 

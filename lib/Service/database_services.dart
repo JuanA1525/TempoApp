@@ -184,7 +184,6 @@ class DatabaseServices {
   }) async {
     try {
       // Identificador de tarea
-      int contador = (CustomUser.usuarioActual?.taskList.length ?? 0) + 1;
 
       if (confirmarDatosTask(
         name: name,
@@ -193,8 +192,9 @@ class DatabaseServices {
         state: state,
         duration: duration,
       )) {
+        CustomUser.usuarioActual!.taskCount = CustomUser.usuarioActual!.taskCount! + 1;
+
         Task task = Task(
-          id: contador,
           name: name,
           description: description,
           creationDate: creationDate,
@@ -290,6 +290,18 @@ class DatabaseServices {
   static Future<bool> updateUser() async {
     try{
       if(CustomUser.usuarioActual != null){
+        
+        List<String>? auxTaskIds = [];
+        List<String>? auxSleepList = [];
+
+        for (Task tk in CustomUser.usuarioActual!.taskList){
+          auxTaskIds.add(tk.id.toString());
+        }
+
+        for (Sleep sl in CustomUser.usuarioActual!.sleepList){
+          auxSleepList.add(sl.id.toString());
+        }
+
         DocumentReference docRef = usersCollection.doc(CustomUser.usuarioActual!.mail);
         await docRef.update({
           "Mail": CustomUser.usuarioActual!.mail,
@@ -299,8 +311,8 @@ class DatabaseServices {
           "BirthDate": convDatetoString(CustomUser.usuarioActual!.birthDate!),
           "Age": CustomUser.usuarioActual!.age.toString(),
           "Genere": convertirGeneroAString(CustomUser.usuarioActual!.genere),
-          "TaskList": jsonEncode(CustomUser.usuarioActual!.taskList),
-          "SleepList": jsonEncode(CustomUser.usuarioActual!.sleepList),
+          "TaskList": jsonEncode(auxTaskIds),
+          "SleepList": jsonEncode(auxSleepList),
         });
         return true;
       } else {

@@ -1,9 +1,11 @@
+import 'package:tempo_app/model/custom_user.dart';
+
 import '../enum/priority.dart';
 import '../enum/state.dart';
 
 class Task{
   //atributos
-  int? id;
+  String? id;
   final String name;
   final String? description;
   final DateTime? creationDate;
@@ -13,7 +15,7 @@ class Task{
   final ePriority priority;
 
   Task({
-    this.id=0,
+    this.id,
     required this.name,
     this.description,
     this.creationDate,
@@ -21,5 +23,7 @@ class Task{
     required this.priority,
     required this.state,
     this.duration ,
-  });
+  }){
+    id = CustomUser.usuarioActual!.mail + CustomUser.usuarioActual!.taskCount.toString();
+  }
 }

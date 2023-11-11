@@ -195,7 +195,8 @@ class Home extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        DatabaseServices.addTask(name: "Nombre de Task", description: "description", priority: ePriority.high, state: eState.toDo, duration: 12);
+                        DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
+                        print(CustomUser.usuarioActual!.taskCount.toString());
                       },
                       child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),
                     ),
@@ -220,7 +221,7 @@ class Home extends StatelessWidget {
                       onTap: () {
 
                         if(DatabaseServices.logout()){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
                         }
                         
                       },

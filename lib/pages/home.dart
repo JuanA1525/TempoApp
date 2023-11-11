@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/priority.dart';
 import 'package:tempo_app/enum/state.dart';
+import 'package:tempo_app/model/custom_user.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,10 +38,10 @@ class Home extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
                   color: Colors.transparent,
-                  child: const Column(
+                  child: Column(
                     children: [
 
-                         Center(
+                         const Center(
                           child: Text('Bienvenido!',
                           maxLines: 3,
                             style: TextStyle(
@@ -60,9 +61,9 @@ class Home extends StatelessWidget {
                         ),
 
                         Center(
-                          child: Text('@Username',
+                          child: Text(CustomUser.usuarioActual!.name,
                           maxLines: 3,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 30,
                               fontWeight: FontWeight.bold

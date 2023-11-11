@@ -5,8 +5,17 @@ import 'package:tempo_app/pages/register.dart';
 
 import 'home.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+  final _formLoginKey = GlobalKey<FormState>();
+
   final TextEditingController cMail = TextEditingController();
   final TextEditingController cPassword = TextEditingController();
 
@@ -88,63 +97,81 @@ class Login extends StatelessWidget {
                   )
               ),
 
-              // ----------- INPUT EMAIL ------------
               
-              Container(
-                margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3)
-                    )
-                  ],
-                ),
-                child: TextField(
-                  controller: cMail,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Correo electrónico',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
+              Form(
+                key: _formLoginKey,
+                child: Column(
+                  children: [
+
+                    // ----------- INPUT EMAIL ------------
+              
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3)
+                          )
+                        ],
+                      ),
+                      child: TextFormField(
+                        controller: cMail,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'Correo electrónico',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none
+                          ),
+                        ),
+                        validator: (value) {
+                          if(value!.isEmpty) {
+                            return 'Por favor ingrese su correo electrónico';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ),
-              ),
 
-              // ----------- INPUT PASSWORD ------------
+                    // ----------- INPUT PASSWORD ------------
 
-              Container(
-                margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3)
-                    )
-                  ],
-                ),
-                child: TextField(
-                  controller: cPassword,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Contraseña',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3)
+                          )
+                        ],
+                      ),
+                      child: TextFormField(
+                        controller: cPassword,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'Contraseña',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none
+                          ),
+                        ),
+                        validator: (value) {
+                          if(value!.isEmpty) {
+                            return 'Por favor ingrese su contraseña';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ),
-              ),
 
-              // ----------- NOT REGISTERED ------------
+                    // ----------- NOT REGISTERED ------------
 
               GestureDetector(
                 onTap: () {
@@ -189,16 +216,43 @@ class Login extends StatelessWidget {
                   child: Center(
                     child: GestureDetector(
                       onTap: () async {
-                        if(await DatabaseServices.login(mail: cMail.text, password: cPassword.text)) {
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        }
-                      },
+                        if (_formLoginKey.currentState!.validate()) {
+                          final success = await DatabaseServices.login(
+                              mail: cMail.text, password: cPassword.text);
+
+                          if (success) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Home()),
+                            );
+                          } else {
+                            // Provide feedback to the user that login failed
+                            // For example, you can show a snackbar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Incorrect email or password'),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+
+    cMail.clear();
+    cPassword.clear();
+  }
+},
+
                       child: const Icon(Icons.arrow_forward_ios, color: Colors.blueAccent, size: 30,),
                     ),
                   ),
                 ),
               )
+
+
+                  ],
+                ),
+              ),
+
+              
             ],
           ),
         ],

@@ -172,9 +172,10 @@ class DatabaseServices {
       throw Exception("Hubo un error en addUser $e");
     }
   }
+  
   static Future<bool> addTask({
   required String name,
-  required String description,
+  String? description,
   DateTime? creationDate,
   DateTime? limitDate,
   required ePriority priority,
@@ -240,6 +241,7 @@ class DatabaseServices {
       throw Exception("Hubo un error en addTask $e");
     }
   }
+  
   static bool deleteTask({required Task task}) {
     try {
       if (CustomUser.usuarioActual!.taskList.isNotEmpty) {
@@ -252,25 +254,30 @@ class DatabaseServices {
       throw Exception("Hubo un error en deleteTask $e");
     }
   }
+
   static Future<bool> login({required String mail, required String password}) async {
     try {
       CustomUser? user = await getUser(userMail: mail);
-      if (user != null) {
-        if (user.password == password) {
-          CustomUser.usuarioActual = user;
-          return true;
-        } else {
-          //CONTRASEÑA INCORRECTA
-          return false;
-        }
-      } else {
-        //NO EXISTE EN BASE DE DATOS
-        return false;
-      }
+
+       if(user != null){
+          if(password == user.password){
+            CustomUser.usuarioActual = user;
+            return true;
+          } else {
+            // CODIGO DE CONTROL CUANDO LA CONTRASEÑA ES INCORRECTA
+            return false;
+          }
+       } else {
+        // CODIGO DE CONTROL CUANDO NO EXISTE USUARIO
+         return false;
+       }
+      
+
     } catch (e) {
       throw Exception("Hubo un error en login $e");
     }
   }
+  
   static bool logout() {
     try {
       CustomUser.usuarioActual = null;
@@ -279,6 +286,7 @@ class DatabaseServices {
       throw Exception("Hubo un error en logout $e");
     }
   }
+  
   static Future<bool> updateUser() async {
     try{
       if(CustomUser.usuarioActual != null){
@@ -302,7 +310,9 @@ class DatabaseServices {
       throw Exception("Hubo un error en updateUser $e");
     }
   }
+  
   // DataTypes Functions
+  
   static int calcularEdad(DateTime fechaNacimiento) {
     try {
       final now = DateTime.now();
@@ -318,6 +328,7 @@ class DatabaseServices {
       throw Exception("Error al calcular la edad: $e");
     }
   }
+  
   static DateTime convStringtoDate(String fecha) {
     try {
       // Divide la cadena en día, mes y año
@@ -337,6 +348,7 @@ class DatabaseServices {
       throw Exception("Error al convertir la fecha: $e");
     }
   }
+  
   static String convDatetoString(DateTime fecha) {
     try {
       final dia = fecha.day
@@ -350,6 +362,7 @@ class DatabaseServices {
       throw Exception("Error al convertir la fecha: $e");
     }
   }
+  
   static String convertirGeneroAString(eGenere genero) {
     try {
       switch (genero) {
@@ -438,7 +451,7 @@ class DatabaseServices {
   }
   static bool confirmarDatosTask(
       {required String name,
-      required String description,
+      String? description,
       String? creationDate,
       String? limitDate,
       required ePriority priority,

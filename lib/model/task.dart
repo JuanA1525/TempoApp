@@ -5,7 +5,7 @@ class Task{
   //atributos
   int? id;
   final String name;
-  final String description;
+  final String? description;
   final DateTime? creationDate;
   final DateTime? limitDate;
   final int? duration;
@@ -15,7 +15,7 @@ class Task{
   Task({
     this.id=0,
     required this.name,
-    required this.description,
+    this.description,
     this.creationDate,
     this.limitDate,
     required this.priority,

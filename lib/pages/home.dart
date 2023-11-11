@@ -218,7 +218,11 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+
+                        if(DatabaseServices.logout()){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                        }
+                        
                       },
                       child: const Icon(Icons.person, color: Colors.blueAccent, size: 32,),
                     ),

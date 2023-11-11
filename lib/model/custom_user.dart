@@ -31,4 +31,33 @@ class CustomUser {
     
     this.genere= eGenere.none, // Valor por defecto
   });
+
+  String getPriority(int index){
+    switch(usuarioActual!.taskList[index].priority.toString()){
+      case "ePriority.ignore":
+        return "Ignorar";
+      case "ePriority.low":
+        return "Baja";
+      case "ePriority.mid":
+        return "Media";
+      case "ePriority.high":
+        return "Alta";
+      case "ePriority.top":
+        return "Muy alta";
+      default:
+        return "Ignorar";
+    }
+  }
+
+  String getState(int index){
+    switch(usuarioActual!.taskList[index].state.toString()){
+      case "eState.toDo":
+        return "Por hacer";
+      case "eState.done":
+        return "Realizada";
+      default:
+        return "Ignorar";
+    }
+  }
+
 }

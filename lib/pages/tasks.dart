@@ -1,5 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:tempo_app/Service/database_services.dart';
+import 'package:tempo_app/enum/priority.dart';
+import 'package:tempo_app/enum/state.dart';
+import 'package:tempo_app/model/custom_user.dart';
 import 'package:tempo_app/pages/home.dart';
 
 class Tasks extends StatefulWidget {
@@ -12,10 +16,20 @@ class Tasks extends StatefulWidget {
 class _TasksState extends State<Tasks> {
 
 
-  final _formKey = GlobalKey<FormState>();
-  final _tasks = <String>[];
+  final _formTaskKey = GlobalKey<FormState>();
 
-  final TextEditingController _taskController = TextEditingController();
+
+  final TextEditingController _taskNameController = TextEditingController();
+  final TextEditingController _taskDescriptionController = TextEditingController();
+
+  ePriority cPriority = ePriority.mid;
+  eState cState = eState.toDo;
+
+  final List<String> _optionsPriority = ['Ignorar','Baja', 'Media', 'Alta', 'Muy alta'];
+  String? _selectedOptionPriority;
+
+  final List<String> _optionsState = ['Por hacer', 'Realizado'];
+  String? _selectedOptionState;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +73,6 @@ class _TasksState extends State<Tasks> {
               ),
 
 
-              // Resto del contenido de la pantalla Tasks
               Container(
                 margin: const EdgeInsets.all(25),
                 padding: const EdgeInsets.all(20),
@@ -73,12 +86,25 @@ class _TasksState extends State<Tasks> {
 
                     
                     Form(
-                      key: _formKey,
-                      child: Row(
+                      key: _formTaskKey,
+                      child: Column(
                         children: [
-                          Expanded(
+
+
+                          //-----------------INPUT Name-----------------
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3))
+                              ],
+                            ),
                             child: TextFormField(
-                              controller: _taskController, // Asigna el controlador aquí
+                              controller: _taskNameController, // Asigna el controlador aquí
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
@@ -86,35 +112,177 @@ class _TasksState extends State<Tasks> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 ),
-                                hintText: 'Ejemplo: Sacar a pasear al perro...',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 60, 60, 60),
-                                ),
+                                hintText: 'Nombre',
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Por favor ingresa una tarea!';
+                                  return 'Por favor ingresa un nombre!';
                                 }
                                 return null;
                               },
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  _tasks.add(_taskController.text); // Obtiene el valor del controlador
-                                  _taskController.clear(); // Borra el valor del controlador
-                                });
-                              }
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.blue),
-                              shape: MaterialStateProperty.all(const CircleBorder()),
+                          
+                          //-----------------INPUT Description-----------------
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3))
+                              ],
                             ),
-                            child: const Icon(
-                              Icons.send,
-                              color: Colors.white,
+                            child: TextFormField(
+                              controller: _taskDescriptionController, // Asigna el controlador aquí
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: 'Descripcion (Opcional)',
+                              ),
+                            ),
+                          ),
+
+
+                          //-----------------INPUT Priority-----------------
+
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3))
+                              ],
+                            ),
+
+                            child: DropdownButtonFormField<String>(
+                              value: _selectedOptionPriority,
+                              items: _optionsPriority.map((String option) {
+                                return DropdownMenuItem<String>(
+                                  value: option,
+                                  child: Text(option),
+                                );
+                              }).toList(),
+                                onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedOptionPriority = newValue;
+                                  switch (_selectedOptionPriority) {
+                                    case "Ignorar":
+                                      cPriority = ePriority.ignore;
+                                      break;
+                                    case "Baja":
+                                      cPriority = ePriority.low;
+                                      break;
+                                    case "Media":
+                                      cPriority = ePriority.mid;
+                                      break;
+                                    case "Alta":
+                                      cPriority = ePriority.high;
+                                      break;
+                                    case "Muy alta":
+                                      cPriority = ePriority.top;
+                                      break;
+                                    default:
+                                      cPriority = ePriority.mid;
+                                      break;
+                                  }
+                                });
+                              },
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: const Color(0xFFFFFFFF),
+                                hintText: 'Seleccione la prioridad',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none),
+                              ),
+                            ),
+                          ),
+
+
+                          //-----------------INPUT State-----------------
+
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3))
+                              ],
+                            ),
+
+                            child: DropdownButtonFormField<String>(
+                              value: _selectedOptionState,
+                              items: _optionsState.map((String option) {
+                                return DropdownMenuItem<String>(
+                                  value: option,
+                                  child: Text(option),
+                                );
+                              }).toList(),
+                                onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedOptionState = newValue;
+                                  switch (_selectedOptionState) {
+                                    case "Por hacer":
+                                      cState = eState.toDo;
+                                      break;
+                                    case "Realizado":
+                                      cState = eState.done;
+                                      break;
+                                    default:
+                                      cPriority = ePriority.mid;
+                                      break;
+                                  }
+                                });
+                              },
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: const Color(0xFFFFFFFF),
+                                hintText: 'Seleccione el estado',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none),
+                              ),
+                            ),
+                          ),
+
+                          //-----------------BUTTON Create Task-----------------
+
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            child: TextButton(
+                              onPressed: () {
+                                if (_formTaskKey.currentState!.validate()) {
+                                  setState(() {
+                                    DatabaseServices.addTask(name: _taskNameController.text, description: _taskDescriptionController.text, priority: cPriority, state: cState, duration: 10); // Obtiene el valor del controlador
+                                    _taskNameController.clear();
+                                    _taskDescriptionController.clear(); // Borra el valor del controlador
+                                  });
+                                }
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(const EdgeInsets.all(30)),
+                                backgroundColor: MaterialStateProperty.all(Colors.white),
+                                shape: MaterialStateProperty.all(const CircleBorder()),
+                                shadowColor: MaterialStateColor.resolveWith((states) => Colors.black.withOpacity(0.5)),
+                                elevation: MaterialStateProperty.all(10),
+                              ),
+                              child: const Icon(
+                                Icons.send,
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                         ],
@@ -140,40 +308,113 @@ class _TasksState extends State<Tasks> {
                 ),
               ),
 
+            // ----------------- TASKS LIST -----------------
+
               Container(
                 width: 400,
                 margin: const EdgeInsets.only(top: 20, bottom: 75),
                 child: ListView.builder(
                   shrinkWrap: true, // Para que el ListView.builder se ajuste al contenido
-                  itemCount: _tasks.length,
+                  itemCount: CustomUser.usuarioActual!.taskList.length,
                   itemBuilder: (context, index) {
-                    if(_tasks.isEmpty){
+                    if(CustomUser.usuarioActual!.taskList.isEmpty){
                         
                       return const Text("Aun no hay tareas");
                     
 
                     }else{
                       return Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
                         margin: const EdgeInsets.only(right: 30, left: 30, top: 10, bottom: 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                         
                         ),
-                        child: ListTile(
-                          title: Text(_tasks[index]),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.blueAccent),
-                            onPressed: () {
-                              setState(() {
-                                _tasks.removeAt(index);
-                              });
-                            },
-                          ),
-                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    CustomUser.usuarioActual!.taskList[index].name,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 2, 78, 209)
+                                    ),
+                                  ),
+                                ),
+                                
+                                Container(
+                                  child: Text(
+                                    CustomUser.usuarioActual!.taskList[index].description!,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 25, 25, 25)
+                                    ),
+                                  ),
+                                ),
+                                
+                              ],
+                            ),
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+
+                                Container(
+                                  child: Text(
+                                    "Prioridad: ${CustomUser.usuarioActual!.getPriority(index)}",
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  child: Text(
+                                    "Estado: ${CustomUser.usuarioActual!.getState(index)}",
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.blueAccent),
+                              onPressed: () {
+                                setState(() {
+                                  CustomUser.usuarioActual!.taskList.removeAt(index);
+                                });
+                              },
+                            ),
+
+                          ],
+                        )
                       );
                     }
                     
+                    // IconButton(
+                    //   icon: const Icon(Icons.delete, color: Colors.blueAccent),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       CustomUser.usuarioActual!.taskList.removeAt(index);
+                    //     });
+                    //   },
+                    // ),
+
                   },
                 ),
               ),

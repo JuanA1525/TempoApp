@@ -23,16 +23,19 @@ class DatabaseServices {
       DocumentSnapshot snapDoc = await usersCollection.doc(userMail).get();
 
       if (snapDoc.exists) {
+        int contTasks = 0;
+        int contSleeps = 0;
         List<Task> auxTaskList = <Task>[];
         List<Sleep> auxSleepList = <Sleep>[];
         Map<String, dynamic>? userData =
             snapDoc.data() as Map<String, dynamic>?;
 
-        List<String> taskIds = List<String>.from(userData?["TaskList"]);
-        List<String> sleepIds = List<String>.from(userData?["SleepList"]);
+        List<String>? taskIds = List<String>.from(userData?["TaskList"]);
+        List<String>? sleepIds = List<String>.from(userData?["SleepList"]);
 
         if (taskIds.isNotEmpty) {
           for (String taskId in taskIds) {
+            contTasks++;
             DocumentSnapshot taskSnapshot =
                 await tasksCollection.doc(taskId).get();
             
@@ -43,17 +46,12 @@ class DatabaseServices {
               creationDate: convStringtoDate(taskSnapshot["CreationDate"]),
               limitDate: convStringtoDate(taskSnapshot["LimitDate"]),
               duration: int.parse(taskSnapshot["Duration"]),
-              state:
-                  taskSnapshot["State"] == "Done" ? eState.done : eState.toDo,
-              priority: taskSnapshot["Priority"] == "Ignore"
-                  ? ePriority.ignore
-                  : taskSnapshot["Priority"] == "Low"
-                      ? ePriority.low
-                      : taskSnapshot["Priority"] == "High"
-                          ? ePriority.high
-                          : taskSnapshot["Priority"] == "Top"
-                              ? ePriority.top
-                              : ePriority.mid,
+              state: taskSnapshot["State"] == "eState.done" ? eState.done : eState.toDo,
+              priority: taskSnapshot["Priority"] == "ePriority.ignore" ? ePriority.ignore :
+                        taskSnapshot["Priority"] == "ePriority.low" ? ePriority.low :
+                        taskSnapshot["Priority"] == "ePriority.high" ? ePriority.high :
+                        taskSnapshot["Priority"] == "ePriority.top" ? ePriority.top :
+                        ePriority.mid,
             );
             auxTaskList.add(task);
           }
@@ -61,19 +59,20 @@ class DatabaseServices {
 
         if (sleepIds.isNotEmpty) {
           for (String sleepID in sleepIds) {
+            contSleeps++;
             DocumentSnapshot sleepSnapshot =
                 await sleepCollection.doc(sleepID).get();
             Sleep sleep = Sleep(
               sDate: sleepSnapshot["Date"],
-              quality: sleepSnapshot["Quality"] == "Bad"
+              quality: sleepSnapshot["Quality"] == "eQuality.good"
                   ? eQuality.good
-                  : sleepSnapshot["Quality"] == "Poor"
+                  : sleepSnapshot["Quality"] == "eQuality.bad"
                       ? eQuality.bad
-                      : sleepSnapshot["Quality"] == "Fair"
+                      : sleepSnapshot["Quality"] == "eQuality.fair"
                           ? eQuality.fair
-                          : sleepSnapshot["Quality"] == "Good"
+                          : sleepSnapshot["Quality"] == "eQuality.good"
                               ? eQuality.good
-                              : sleepSnapshot["Quality"] == "Excelent"
+                              : sleepSnapshot["Quality"] == "eQuality.excellent"
                                   ? eQuality.excellent
                                   : eQuality.fair,
               duration: double.parse(sleepSnapshot["Duration"]),
@@ -96,8 +95,8 @@ class DatabaseServices {
           sleepList: auxSleepList,
           taskList: auxTaskList,
           lastName: userData["LastName"],
-          taskCount: userData["TaskCount"],
-          sleepCount: userData["SleepCount"],
+          taskCount: contTasks,
+          sleepCount: contSleeps,
         );
 
         return auxUser;
@@ -193,7 +192,6 @@ class DatabaseServices {
         state: state,
         duration: duration,
       )) {
-        CustomUser.usuarioActual!.taskCount = CustomUser.usuarioActual!.taskCount! + 1;
 
         Task task = Task(
           name: name,
@@ -301,6 +299,9 @@ class DatabaseServices {
           auxSleepList.add(sl.id.toString());
         }
 
+        CustomUser.usuarioActual!.taskCount = CustomUser.usuarioActual!.taskList.length;
+        CustomUser.usuarioActual!.sleepCount = CustomUser.usuarioActual!.sleepList.length;
+
         DocumentReference docRef = usersCollection.doc(CustomUser.usuarioActual!.mail);
         await docRef.update({
           "Mail": CustomUser.usuarioActual!.mail,
@@ -312,6 +313,8 @@ class DatabaseServices {
           "Genere": convertirGeneroAString(CustomUser.usuarioActual!.genere),
           "TaskList": auxTaskIds,
           "SleepList": auxSleepList,
+          "TaskCount" : CustomUser.usuarioActual!.taskCount,
+          "SleepCount" : CustomUser.usuarioActual!.sleepCount
         });
         return true;
       } else {

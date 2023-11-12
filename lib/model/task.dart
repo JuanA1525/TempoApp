@@ -24,6 +24,6 @@ class Task{
     required this.state,
     this.duration ,
   }){
-    id = CustomUser.usuarioActual!.mail + CustomUser.usuarioActual!.taskCount.toString();
+    id ??= CustomUser.usuarioActual!.mail + CustomUser.usuarioActual!.taskCount.toString();
   }
 }

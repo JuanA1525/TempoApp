@@ -1,7 +1,4 @@
 // ignore_for_file: avoid_print
-
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tempo_app/pages/dialog_helper.dart';
@@ -38,6 +35,7 @@ class DatabaseServices {
           for (String taskId in taskIds) {
             DocumentSnapshot taskSnapshot =
                 await tasksCollection.doc(taskId).get();
+            
             Task task = Task(
               id: taskSnapshot["Id"],
               name: taskSnapshot["Name"],
@@ -86,7 +84,6 @@ class DatabaseServices {
 
         CustomUser auxUser = CustomUser(
           name: userData!["Name"],
-          lastName: userData["LastName"],
           mail: userData["Mail"],
           password: userData["Password"],
           age: int.parse(userData["Age"]),
@@ -98,6 +95,9 @@ class DatabaseServices {
           birthDate: convStringtoDate(userData["BirthDate"]),
           sleepList: auxSleepList,
           taskList: auxTaskList,
+          lastName: userData["LastName"],
+          taskCount: userData["TaskCount"],
+          sleepCount: userData["SleepCount"],
         );
 
         return auxUser;
@@ -159,6 +159,8 @@ class DatabaseServices {
             "Genere": convertirGeneroAString(genere),
             "TaskList": [],
             "SleepList": [],
+            "TaskCount" : 0,
+            "SleepCount" : 0
           });
 
           return true;
@@ -171,8 +173,7 @@ class DatabaseServices {
     } catch (e) {
       throw Exception("Hubo un error en addUser $e");
     }
-  }
-  
+  }  
   static Future<bool> addTask({
   required String name,
   String? description,
@@ -215,8 +216,8 @@ class DatabaseServices {
               "Id": task.id.toString(),
               "Name": task.name,
               "Description": task.description,
-              "CreationDate": "null",
-              "LimitDate": "null",
+              "CreationDate": convDatetoString(DateTime.now()),
+              "LimitDate": convDatetoString(DateTime.now().add(const Duration(days: 5))),
               "Duration": task.duration.toString(),
               "State": task.state.toString(),
               "Priority": task.priority.toString(),
@@ -233,6 +234,7 @@ class DatabaseServices {
               "Priority": task.priority.toString(),
             });
           }
+          updateUser();
           return true;
         }
       }
@@ -240,13 +242,13 @@ class DatabaseServices {
     } catch (e) {
       throw Exception("Hubo un error en addTask $e");
     }
-  }
-  
+  } 
   static bool deleteTask({required Task task}) {
     try {
       if (CustomUser.usuarioActual!.taskList.isNotEmpty) {
         CustomUser.usuarioActual?.taskList.remove(task);
         tasksCollection.doc(task.id.toString()).delete();
+        updateUser();
         return true;
       }
       return false;
@@ -254,7 +256,6 @@ class DatabaseServices {
       throw Exception("Hubo un error en deleteTask $e");
     }
   }
-
   static Future<bool> login({required String mail, required String password}) async {
     try {
       CustomUser? user = await getUser(userMail: mail);
@@ -277,7 +278,6 @@ class DatabaseServices {
       throw Exception("Hubo un error en login $e");
     }
   }
-  
   static bool logout() {
     try {
       CustomUser.usuarioActual = null;
@@ -286,7 +286,6 @@ class DatabaseServices {
       throw Exception("Hubo un error en logout $e");
     }
   }
-  
   static Future<bool> updateUser() async {
     try{
       if(CustomUser.usuarioActual != null){
@@ -311,8 +310,8 @@ class DatabaseServices {
           "BirthDate": convDatetoString(CustomUser.usuarioActual!.birthDate!),
           "Age": CustomUser.usuarioActual!.age.toString(),
           "Genere": convertirGeneroAString(CustomUser.usuarioActual!.genere),
-          "TaskList": jsonEncode(auxTaskIds),
-          "SleepList": jsonEncode(auxSleepList),
+          "TaskList": auxTaskIds,
+          "SleepList": auxSleepList,
         });
         return true;
       } else {
@@ -324,7 +323,6 @@ class DatabaseServices {
   }
   
   // DataTypes Functions
-  
   static int calcularEdad(DateTime fechaNacimiento) {
     try {
       final now = DateTime.now();

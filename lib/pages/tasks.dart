@@ -423,7 +423,7 @@ class _TasksState extends State<Tasks> {
                               icon: const Icon(Icons.delete, color: Colors.blueAccent),
                               onPressed: () {
                                 setState(() {
-                                  CustomUser.usuarioActual!.taskList.removeAt(index);
+                                  DatabaseServices.deleteTask(task: CustomUser.usuarioActual!.taskList[index]);
                                 });
                               },
                             ),

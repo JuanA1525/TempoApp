@@ -196,7 +196,6 @@ class Home extends StatelessWidget {
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
                         DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
-                        print(CustomUser.usuarioActual!.taskCount.toString());
                       },
                       child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),
                     ),

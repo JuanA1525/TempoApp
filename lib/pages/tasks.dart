@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/priority.dart';
 import 'package:tempo_app/enum/state.dart';
@@ -21,6 +22,7 @@ class _TasksState extends State<Tasks> {
 
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController = TextEditingController();
+  final TextEditingController _taskDurationController = TextEditingController();
 
   ePriority cPriority = ePriority.mid;
   eState cState = eState.toDo;
@@ -92,216 +94,274 @@ class _TasksState extends State<Tasks> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text('Crear tarea'),
+                              title: const Text(
+                                'Crear tarea',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255)
+                                ),
+                              ),
                               
-                              content: Form(
-                                key: _formTaskKey,
-                                child: Column(
-                                  children: [
-
-
-                                    //-----------------INPUT Name-----------------
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0, 3))
-                                        ],
-                                      ),
-                                      child: TextFormField(
-                                        controller: _taskNameController, // Asigna el controlador aquí
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          hintText: 'Nombre',
+                              content: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 0, 57, 201),                               
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                height: 400,
+                                width: 900,
+                                alignment: Alignment.center,
+                                child: Form(
+                                  key: _formTaskKey,
+                                  child: Column(
+                                    children: [
+                              
+                              
+                                      //-----------------INPUT Name-----------------
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: const Offset(0, 3))
+                                          ],
                                         ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Por favor ingresa un nombre!';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    
-                                    //-----------------INPUT Description-----------------
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0, 3))
-                                        ],
-                                      ),
-                                      child: TextFormField(
-                                        controller: _taskDescriptionController, // Asigna el controlador aquí
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          hintText: 'Descripcion (Opcional)',
-                                        ),
-                                      ),
-                                    ),
-
-
-                                    //-----------------INPUT Priority-----------------
-
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0, 3))
-                                        ],
-                                      ),
-
-                                      child: DropdownButtonFormField<String>(
-                                        value: _selectedOptionPriority,
-                                        items: _optionsPriority.map((String option) {
-                                          return DropdownMenuItem<String>(
-                                            value: option,
-                                            child: Text(option),
-                                          );
-                                        }).toList(),
-                                          onChanged: (String? newValue) {
-                                          setState(() {
-                                            _selectedOptionPriority = newValue;
-                                            switch (_selectedOptionPriority) {
-                                              case "Ignorar":
-                                                cPriority = ePriority.ignore;
-                                                break;
-                                              case "Baja":
-                                                cPriority = ePriority.low;
-                                                break;
-                                              case "Media":
-                                                cPriority = ePriority.mid;
-                                                break;
-                                              case "Alta":
-                                                cPriority = ePriority.high;
-                                                break;
-                                              case "Muy alta":
-                                                cPriority = ePriority.top;
-                                                break;
-                                              default:
-                                                cPriority = ePriority.mid;
-                                                break;
-                                            }
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: const Color(0xFFFFFFFF),
-                                          hintText: 'Seleccione la prioridad',
-                                          border: OutlineInputBorder(
+                                        child: TextFormField(
+                                          controller: _taskNameController, // Asigna el controlador aquí
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide.none),
-                                        ),
-                                      ),
-                                    ),
-
-
-                                    //-----------------INPUT State-----------------
-
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0, 3))
-                                        ],
-                                      ),
-
-                                      child: DropdownButtonFormField<String>(
-                                        value: _selectedOptionState,
-                                        items: _optionsState.map((String option) {
-                                          return DropdownMenuItem<String>(
-                                            value: option,
-                                            child: Text(option),
-                                          );
-                                        }).toList(),
-                                          onChanged: (String? newValue) {
-                                          setState(() {
-                                            _selectedOptionState = newValue;
-                                            switch (_selectedOptionState) {
-                                              case "Por hacer":
-                                                cState = eState.toDo;
-                                                break;
-                                              case "Realizado":
-                                                cState = eState.done;
-                                                break;
-                                              default:
-                                                cPriority = ePriority.mid;
-                                                break;
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            hintText: 'Nombre',
+                                          ),
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Por favor ingresa un nombre!';
                                             }
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: const Color(0xFFFFFFFF),
-                                          hintText: 'Seleccione el estado',
-                                          border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide.none),
+                                            return null;
+                                          },
                                         ),
                                       ),
-                                    ),
-
-                                    //-----------------BUTTON Create Task-----------------
-
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 20),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          if (_formTaskKey.currentState!.validate()) {
+                                      
+                                      //-----------------INPUT Description-----------------
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: const Offset(0, 3))
+                                          ],
+                                        ),
+                                        child: TextFormField(
+                                          controller: _taskDescriptionController, // Asigna el controlador aquí
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            hintText: 'Descripcion (Opcional)',
+                                          ),
+                                        ),
+                                      ),
+                              
+                              
+                                      //-----------------INPUT Priority-----------------
+                              
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: const Offset(0, 3))
+                                          ],
+                                        ),
+                              
+                                        child: DropdownButtonFormField<String>(
+                                          value: _selectedOptionPriority,
+                                          items: _optionsPriority.map((String option) {
+                                            return DropdownMenuItem<String>(
+                                              value: option,
+                                              child: Text(option),
+                                            );
+                                          }).toList(),
+                                            onChanged: (String? newValue) {
                                             setState(() {
-                                              DatabaseServices.addTask(name: _taskNameController.text, description: _taskDescriptionController.text, priority: cPriority, state: cState, duration: 10); // Obtiene el valor del controlador
-                                              _taskNameController.clear();
-                                              _taskDescriptionController.clear(); // Borra el valor del controlador
+                                              _selectedOptionPriority = newValue;
+                                              switch (_selectedOptionPriority) {
+                                                case "Ignorar":
+                                                  cPriority = ePriority.ignore;
+                                                  break;
+                                                case "Baja":
+                                                  cPriority = ePriority.low;
+                                                  break;
+                                                case "Media":
+                                                  cPriority = ePriority.mid;
+                                                  break;
+                                                case "Alta":
+                                                  cPriority = ePriority.high;
+                                                  break;
+                                                case "Muy alta":
+                                                  cPriority = ePriority.top;
+                                                  break;
+                                                default:
+                                                  cPriority = ePriority.mid;
+                                                  break;
+                                              }
                                             });
-                                            Navigator.of(context).pop();
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30)),
-                                          backgroundColor: MaterialStateProperty.all(Colors.white),
-                                          shape: MaterialStateProperty.all(const CircleBorder()),
-                                          shadowColor: MaterialStateColor.resolveWith((states) => Colors.black.withOpacity(0.5)),
-                                          elevation: MaterialStateProperty.all(10),
-                                        ),
-                                        child: const Icon(
-                                          Icons.send,
-                                          color: Colors.blueAccent,
+                                          },
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: const Color(0xFFFFFFFF),
+                                            hintText: 'Seleccione la prioridad',
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                borderSide: BorderSide.none),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                              
+                              
+                                      //-----------------INPUT State-----------------
+                              
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: const Offset(0, 3))
+                                          ],
+                                        ),
+                              
+                                        child: DropdownButtonFormField<String>(
+                                          value: _selectedOptionState,
+                                          items: _optionsState.map((String option) {
+                                            return DropdownMenuItem<String>(
+                                              value: option,
+                                              child: Text(option),
+                                            );
+                                          }).toList(),
+                                            onChanged: (String? newValue) {
+                                            setState(() {
+                                              _selectedOptionState = newValue;
+                                              switch (_selectedOptionState) {
+                                                case "Por hacer":
+                                                  cState = eState.toDo;
+                                                  break;
+                                                case "Realizado":
+                                                  cState = eState.done;
+                                                  break;
+                                                default:
+                                                  cPriority = ePriority.mid;
+                                                  break;
+                                              }
+                                            });
+                                          },
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: const Color(0xFFFFFFFF),
+                                            hintText: 'Seleccione el estado',
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                borderSide: BorderSide.none),
+                                          ),
+                                        ),
+                                      ),
+                              
+                                      //-----------------INPUT Duration-----------------
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10, left: 30, right: 30),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(0.2),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: const Offset(0, 3),
+                                            )
+                                          ],
+                                        ),
+                                        child: TextFormField(
+                                          controller: _taskDurationController, // Controlador para la duración
+                                          keyboardType: TextInputType.datetime, // Teclado de tiempo
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                            LengthLimitingTextInputFormatter(4), // Establece un límite de caracteres
+                                          ],
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            hintText: 'Duración (HHMM)', // Puedes ajustar el texto según tus necesidades
+                                          ),
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Por favor ingresa la duración!';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                              
+                                      //-----------------BUTTON Create Task-----------------
+                              
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 20),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            if (_formTaskKey.currentState!.validate()) {
+                                              // Convierte el valor ingresado a un entero
+                                              int duration = int.parse(_taskDurationController.text);
+                                              setState(() {
+                                                DatabaseServices.addTask(name: _taskNameController.text, description: _taskDescriptionController.text, priority: cPriority, state: cState, duration: duration); // Obtiene el valor del controlador
+                                                _taskNameController.clear();
+                                                _taskDescriptionController.clear();
+                                                _taskDurationController.clear(); // Borra el valor del controlador
+                                              });
+                                              Navigator.of(context).pop();
+                                            }
+                                          },
+                                          style: ButtonStyle(
+                                            padding: MaterialStateProperty.all(const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30)),
+                                            backgroundColor: MaterialStateProperty.all(Colors.white),
+                                            shape: MaterialStateProperty.all(const CircleBorder()),
+                                            shadowColor: MaterialStateColor.resolveWith((states) => Colors.black.withOpacity(0.5)),
+                                            elevation: MaterialStateProperty.all(10),
+                                          ),
+                                          child: const Icon(
+                                            Icons.send,
+                                            color: Colors.blueAccent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               contentPadding: const EdgeInsets.all(20), // Ajusta el espacio interno del AlertDialog
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15), // Ajusta la forma del AlertDialog
                               ),
+                              backgroundColor: const Color.fromARGB(255, 0, 57, 201),
                             );
                           },
                         );

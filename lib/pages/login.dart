@@ -21,6 +21,8 @@ class _LoginState extends State<Login> {
   final TextEditingController cMail = TextEditingController();
   final TextEditingController cPassword = TextEditingController();
 
+  final RegExp vMail = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +127,11 @@ class _LoginState extends State<Login> {
                                 borderSide: BorderSide.none),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if(value!.isNotEmpty){
+                              if (!vMail.hasMatch(value)) {
+                                return 'Por favor ingrese un correo electrónico válido';
+                              }
+                            }else{
                               return 'Por favor ingrese su correo electrónico';
                             }
                             return null;

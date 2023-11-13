@@ -108,9 +108,10 @@ class _TasksState extends State<Tasks> {
                                   color: const Color.fromARGB(255, 0, 57, 201),                               
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                height: 400,
+                                height: 450,
                                 width: 900,
                                 alignment: Alignment.center,
+                                transformAlignment: Alignment.center,
                                 child: Form(
                                   key: _formTaskKey,
                                   child: Column(

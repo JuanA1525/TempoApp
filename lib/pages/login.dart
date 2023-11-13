@@ -27,7 +27,7 @@ class _LoginState extends State<Login> {
         backgroundColor: const Color(0xFF352BFF),
         body: Stack(
           children: [
-            // Fondo de imagen
+            
             Image.asset(
               'assets/login_bg.png',
               width: double.infinity,
@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
               fit: BoxFit.cover,
             ),
 
-            // ListView superpuesto
+            
             ListView(
               children: [
                 const SizedBox(
@@ -226,8 +226,6 @@ class _LoginState extends State<Login> {
                                           builder: (context) => const Home()),
                                     );
                                   } else {
-                                    // Provide feedback to the user that login failed
-                                    // For example, you can show a snackbar
                                     DialogHelper.showPopUpLoginDataError(
                                         context, "Error en la contraseña o en el correo electrónico");
                                   }

@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
       backgroundColor: const Color(0xFF352BFF),
       body: Stack(
         children: [
-          // Fondo de imagen
+          
             Image.asset(
               'assets/register_bg.png',
               width: double.infinity,
@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             
-            // ListView superpuesto
+            
           ListView(
             children: [
 
@@ -51,8 +51,8 @@ class Home extends StatelessWidget {
                               shadows: [
                                 Shadow(
                                   color: Color.fromARGB(98, 0, 0, 0),
-                                  offset: Offset(2, 2), // Desplazamiento en x y y
-                                  blurRadius: 5, // Radio de difuminación
+                                  offset: Offset(2, 2),
+                                  blurRadius: 5,
                                 ),
                               ],
                             ),
@@ -194,7 +194,6 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
                         DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
                       },
                       child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),

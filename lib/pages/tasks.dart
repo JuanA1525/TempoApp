@@ -39,7 +39,7 @@ class _TasksState extends State<Tasks> {
       backgroundColor: const Color(0xFF352BFF),
       body: Stack(
         children: [
-          // Fondo de imagen
+          
           Image.asset(
             'assets/register_bg.png',
             width: double.infinity,
@@ -47,7 +47,7 @@ class _TasksState extends State<Tasks> {
             fit: BoxFit.cover,
           ),
 
-          // ListView superpuesto
+          
           ListView(
             children: [
 
@@ -130,7 +130,7 @@ class _TasksState extends State<Tasks> {
                                           ],
                                         ),
                                         child: TextFormField(
-                                          controller: _taskNameController, // Asigna el controlador aquí
+                                          controller: _taskNameController,
                                           decoration: InputDecoration(
                                             filled: true,
                                             fillColor: Colors.white,
@@ -162,7 +162,7 @@ class _TasksState extends State<Tasks> {
                                           ],
                                         ),
                                         child: TextFormField(
-                                          controller: _taskDescriptionController, // Asigna el controlador aquí
+                                          controller: _taskDescriptionController,
                                           decoration: InputDecoration(
                                             filled: true,
                                             fillColor: Colors.white,
@@ -298,11 +298,11 @@ class _TasksState extends State<Tasks> {
                                           ],
                                         ),
                                         child: TextFormField(
-                                          controller: _taskDurationController, // Controlador para la duración
-                                          keyboardType: TextInputType.datetime, // Teclado de tiempo
+                                          controller: _taskDurationController,
+                                          keyboardType: TextInputType.datetime,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.digitsOnly,
-                                            LengthLimitingTextInputFormatter(4), // Establece un límite de caracteres
+                                            LengthLimitingTextInputFormatter(4),
                                           ],
                                           decoration: InputDecoration(
                                             filled: true,
@@ -311,7 +311,7 @@ class _TasksState extends State<Tasks> {
                                               borderRadius: BorderRadius.circular(10),
                                               borderSide: BorderSide.none,
                                             ),
-                                            hintText: 'Duración (HHMM)', // Puedes ajustar el texto según tus necesidades
+                                            hintText: 'Duración (HHMM)',
                                           ),
                                           validator: (value) {
                                             if (value!.isEmpty) {
@@ -329,13 +329,12 @@ class _TasksState extends State<Tasks> {
                                         child: TextButton(
                                           onPressed: () {
                                             if (_formTaskKey.currentState!.validate()) {
-                                              // Convierte el valor ingresado a un entero
                                               int duration = int.parse(_taskDurationController.text);
                                               setState(() {
                                                 DatabaseServices.addTask(name: _taskNameController.text, description: _taskDescriptionController.text, priority: cPriority, state: cState, duration: duration); // Obtiene el valor del controlador
                                                 _taskNameController.clear();
                                                 _taskDescriptionController.clear();
-                                                _taskDurationController.clear(); // Borra el valor del controlador
+                                                _taskDurationController.clear();
                                               });
                                               Navigator.of(context).pop();
                                             }
@@ -357,9 +356,9 @@ class _TasksState extends State<Tasks> {
                                   ),
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.all(20), // Ajusta el espacio interno del AlertDialog
+                              contentPadding: const EdgeInsets.all(20),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15), // Ajusta la forma del AlertDialog
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               backgroundColor: const Color.fromARGB(255, 0, 57, 201),
                             );
@@ -409,7 +408,7 @@ class _TasksState extends State<Tasks> {
                 width: 400,
                 margin: const EdgeInsets.only(top: 20, bottom: 75),
                 child: ListView.builder(
-                  shrinkWrap: true, // Para que el ListView.builder se ajuste al contenido
+                  shrinkWrap: true,
                   itemCount: CustomUser.usuarioActual!.taskList.length,
                   itemBuilder: (context, index) {
                     if(CustomUser.usuarioActual!.taskList.isEmpty){
@@ -492,16 +491,6 @@ class _TasksState extends State<Tasks> {
                         )
                       );
                     }
-                    
-                    // IconButton(
-                    //   icon: const Icon(Icons.delete, color: Colors.blueAccent),
-                    //   onPressed: () {
-                    //     setState(() {
-                    //       CustomUser.usuarioActual!.taskList.removeAt(index);
-                    //     });
-                    //   },
-                    // ),
-
                   },
                 ),
               ),

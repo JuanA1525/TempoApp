@@ -47,7 +47,7 @@ class _RegisterState extends State<Register> {
         backgroundColor: const Color(0xFF352BFF),
         body: Stack(
           children: [
-            // Fondo de imagen
+            
             Image.asset(
               'assets/register_bg.png',
               width: double.infinity,
@@ -55,7 +55,7 @@ class _RegisterState extends State<Register> {
               fit: BoxFit.cover,
             ),
 
-            // ListView superpuesto
+            
             ListView(
               children: [
                 const SizedBox(

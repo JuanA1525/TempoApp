@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/priority.dart';
 import 'package:tempo_app/enum/state.dart';
-import 'package:tempo_app/model/custom_user.dart';
-import 'package:tempo_app/pages/viewHome.dart';
+import 'package:tempo_app/model/model_custom_user.dart';
+import 'package:tempo_app/pages/view_home.dart';
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});

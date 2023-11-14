@@ -184,26 +184,27 @@ class Home extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Tasks()));
                       },
-                      child: SvgPicture.asset(
-                        'assets/task_icon.svg', 
-                        color: Colors.blueAccent,
-                        width: 32,
-                        height: 32,
-                      ),
+                      // child: SvgPicture.asset(
+                      //   'assets/task_icon.svg', 
+                      //   color: Colors.blueAccent,
+                      //   width: 32,
+                      //   height: 32,
+                      // ),
+                      child: const Icon(Icons.task_alt_outlined, color: Colors.blueAccent, size: 32,),
                     ),
 
                     GestureDetector(
                       onTap: () {
                         DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
                       },
-                      child: const Icon(Icons.punch_clock, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.timer_sharp, color: Colors.blueAccent, size: 32,),
                     ),
 
                     GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
                       },
-                      child: const Icon(Icons.home, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.home_outlined, color: Colors.blueAccent, size: 32,),
                     ),
 
                     GestureDetector(
@@ -212,7 +213,7 @@ class Home extends StatelessWidget {
                         //DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
                         DatabaseServices.updateUser();
                       },
-                      child: const Icon(Icons.bed, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.bed_outlined, color: Colors.blueAccent, size: 32,),
                     ),
 
                     GestureDetector(
@@ -223,7 +224,7 @@ class Home extends StatelessWidget {
                         }
                         
                       },
-                      child: const Icon(Icons.person, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.person_outline, color: Colors.blueAccent, size: 32,),
                     ),
 
                   ],

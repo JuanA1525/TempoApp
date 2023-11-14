@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/firebase_options.dart';
 import 'package:tempo_app/pages/login.dart';
-import 'package:tempo_app/pages/register.dart';
 
 Future<void> main() async {
   
@@ -25,7 +24,7 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const Register()
+      home: const Login()
     );
   }
 }

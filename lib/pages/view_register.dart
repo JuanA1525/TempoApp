@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/genre.dart';
+import 'package:tempo_app/pages/dialog_helper.dart';
 import 'package:tempo_app/pages/view_login.dart';
 
 class Register extends StatefulWidget {
@@ -396,16 +399,23 @@ class _RegisterState extends State<Register> {
                           width: 100,
                           child: Center(
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if (_formRegisterKey.currentState!.validate()) {
-                                  DatabaseServices.registerUser(context: context, name: cName.text, lastName: cLastname.text, mail: cMail.text, 
+
+                                  final success = await DatabaseServices.registerUser(context: context, name: cName.text, lastName: cLastname.text, mail: cMail.text, 
                                   password: cPassword.text, age: DatabaseServices.calcularEdad(cBirthdate!), genere: cGender, birthDate: cBirthdate!);
-                                  Navigator.push(
+
+                                  if(success) {
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => const Login()
                                       )
-                                  );
+                                    );
+                                  }else{
+                                    DialogHelper.showPopUpExistingUserError(context);
+                                  }
+                                  
                                 }         
                               },
                               child: const Icon(

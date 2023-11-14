@@ -130,7 +130,7 @@ class DatabaseServices {
       if (errores.isEmpty) {
         if (await userExists(userMail: mail)) {
           // CODIGO DE CONTROL CUANDO EXISTE USUARIO
-          throw Exception("El usuario ya existe");
+          return false;
         } else {
           CustomUser.usuarioActual = CustomUser(
             name: name,
@@ -160,11 +160,10 @@ class DatabaseServices {
         }
       } else {
         //cadena está con errores
-        DialogHelper.showPopUpRegisterDataError(context, errores);
         return false;
       }
     } catch (e) {
-      throw Exception("Hubo un error en addUser $e");
+      return false;
     }
   }  
   

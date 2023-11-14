@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/firebase_options.dart';
-import 'package:tempo_app/pages/login.dart';
+import 'package:tempo_app/pages/viewLogin.dart';
 
 Future<void> main() async {
   

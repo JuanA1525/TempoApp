@@ -5,7 +5,7 @@ import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/priority.dart';
 import 'package:tempo_app/enum/state.dart';
 import 'package:tempo_app/model/custom_user.dart';
-import 'package:tempo_app/pages/home.dart';
+import 'package:tempo_app/pages/viewHome.dart';
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});

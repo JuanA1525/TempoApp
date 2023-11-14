@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/genre.dart';
-import 'package:tempo_app/pages/login.dart';
+import 'package:tempo_app/pages/viewLogin.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key,});

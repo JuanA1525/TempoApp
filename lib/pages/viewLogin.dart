@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/pages/dialog_helper.dart';
 import 'dart:ui';
-import 'package:tempo_app/pages/register.dart';
+import 'package:tempo_app/pages/viewRegister.dart';
 
-import 'home.dart';
+import 'viewHome.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

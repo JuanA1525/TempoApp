@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   
   flutter_svg: ^0.22.0
+  fl_chart: ^0.64.0
+
 
 dev_dependencies:
   flutter_test:

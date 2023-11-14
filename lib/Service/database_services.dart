@@ -60,21 +60,14 @@ class DatabaseServices {
         if (sleepIds.isNotEmpty) {
           for (String sleepID in sleepIds) {
             contSleeps++;
-            DocumentSnapshot sleepSnapshot =
-                await sleepCollection.doc(sleepID).get();
+            DocumentSnapshot sleepSnapshot = await sleepCollection.doc(sleepID).get();
             Sleep sleep = Sleep(
               sDate: sleepSnapshot["Date"],
-              quality: sleepSnapshot["Quality"] == "eQuality.good"
-                  ? eQuality.good
-                  : sleepSnapshot["Quality"] == "eQuality.bad"
-                      ? eQuality.bad
-                      : sleepSnapshot["Quality"] == "eQuality.fair"
-                          ? eQuality.fair
-                          : sleepSnapshot["Quality"] == "eQuality.good"
-                              ? eQuality.good
-                              : sleepSnapshot["Quality"] == "eQuality.excellent"
-                                  ? eQuality.excellent
-                                  : eQuality.fair,
+              quality: sleepSnapshot["Quality"] == "Good" ? eQuality.good :
+                        sleepSnapshot["Quality"] == "Bad" ? eQuality.bad :
+                        sleepSnapshot["Quality"] == "Fair" ? eQuality.fair :
+                        sleepSnapshot["Quality"] == "Excellent" ? eQuality.excellent :
+                        eQuality.fair,
               duration: double.parse(sleepSnapshot["Duration"]),
             );
             auxSleepList.add(sleep);

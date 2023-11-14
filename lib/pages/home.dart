@@ -5,7 +5,7 @@ import 'package:tempo_app/enum/state.dart';
 import 'package:tempo_app/model/custom_user.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/login.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tempo_app/pages/sleeps.dart';
 import 'package:tempo_app/pages/tasks.dart';
 
 
@@ -209,9 +209,7 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        //DialogHelper.showPopUpRegisterDataError(context, "\nEl correo no tiene un formato valido.\nLa contraseña debe ser de minimo 8 caracteres.");
-                        DatabaseServices.updateUser();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Sleeps()));
                       },
                       child: const Icon(Icons.bed_outlined, color: Colors.blueAccent, size: 32,),
                     ),

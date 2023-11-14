@@ -1,6 +1,6 @@
 import 'package:tempo_app/enum/genre.dart';
-import 'package:tempo_app/model/sleep.dart';
-import 'package:tempo_app/model/task.dart';
+import 'package:tempo_app/model/model_sleep.dart';
+import 'package:tempo_app/model/model_task.dart';
 
 class CustomUser {
 

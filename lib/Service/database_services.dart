@@ -6,9 +6,9 @@ import '../enum/genre.dart';
 import '../enum/priority.dart';
 import '../enum/quality.dart';
 import '../enum/state.dart';
-import '../model/custom_user.dart';
-import '../model/sleep.dart';
-import '../model/task.dart';
+import '../model/model_custom_user.dart';
+import '../model/model_sleep.dart';
+import '../model/model_task.dart';
 
 class DatabaseServices {
   //instanciamos la base de datos

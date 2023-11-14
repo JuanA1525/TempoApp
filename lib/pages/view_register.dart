@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/enum/genre.dart';
-import 'package:tempo_app/pages/login.dart';
+import 'package:tempo_app/pages/view_login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key,});
@@ -28,7 +28,7 @@ class _RegisterState extends State<Register> {
     final RegExp vFirstname = RegExp(r'^[a-zA-Z ]+$');
     final RegExp vLastname = RegExp(r'^[a-zA-Z ]+$');
     final RegExp vMail = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-    final RegExp vPassword = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$');
+    final RegExp vPassword = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$');
 
   final List<String> _options = ['Masculino', 'Femenino'];
   String? _selectedOption;

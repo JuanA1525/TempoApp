@@ -1,4 +1,4 @@
-import 'package:tempo_app/model/custom_user.dart';
+import 'package:tempo_app/model/model_custom_user.dart';
 
 import '../enum/priority.dart';
 import '../enum/state.dart';

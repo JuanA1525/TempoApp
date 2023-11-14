@@ -122,7 +122,7 @@ class Home extends StatelessWidget {
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Tasks()));
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

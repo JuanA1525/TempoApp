@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tempo_app/model/model_pomodoro.dart';
-import 'package:tempo_app/pages/dialog_helper.dart';
 import 'package:tempo_app/pages/view_home.dart';
 
 class PomodoroView extends StatefulWidget {

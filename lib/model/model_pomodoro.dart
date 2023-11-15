@@ -1,3 +1,5 @@
+import 'model_task.dart';
+
 class Pomodoro {
 
   static Pomodoro? actualPomodoro;
@@ -5,24 +7,30 @@ class Pomodoro {
   int workTime;
   int shortBreakTime;
   int longBreakTime;
-  int cantLongBreak = 0;
-  int cantshortBreak = 0;
-  int cantWorkTime = 0;
+  
+  int cantshortBreak;
+  int cantLongBreak;
+  int cantWorkTime;
+
   List<int> sessions = [];
 
+  static Pomodoro? pomodoroActual;
+  static String? taskName;
+
   Pomodoro({
-    this.duration = 0,
+    this.duration = 75,
     this.workTime = 25,
     this.shortBreakTime = 5,
     this.longBreakTime = 15,
-    this.cantLongBreak = 0,
-    this.cantshortBreak = 0,
-    this.cantWorkTime = 0, 
-  }) {
-    if (duration == 0){
-      duration = workTime*cantWorkTime;
-    }
 
+    this.cantWorkTime = 0, 
+    this.cantLongBreak = 0,
+    this.cantshortBreak = 0
+  }) {
+    if (cantWorkTime != 0) {
+      duration = cantWorkTime * workTime;
+      cantWorkTime = 0;
+    } 
     calculatePomodoroSessions();
   }
 
@@ -34,52 +42,33 @@ class Pomodoro {
     while (remainingTime > 0) {
       sessions.add(workTime);
       remainingTime -= workTime;
+      cantWorkTime++;
 
       if (contShort < 2){
         if (remainingTime > 0) {
           sessions.add(shortBreakTime);
+          cantshortBreak++;
           contShort++;
         }
       } else {
         if (remainingTime > 0) {
           sessions.add(longBreakTime);
+          cantLongBreak++;
           contShort = 0;
         }
       }
 
-      if (remainingTime < workTime) {
+      if (remainingTime < workTime && remainingTime > 0) {
         sessions.add(remainingTime);
+        cantWorkTime++;
         remainingTime =- remainingTime;
       }
     }
   }
 
-  void setPomodoroSessions() {
-
-    int remainingTime = duration;
-    int contShort = 0;
-    
-    while (remainingTime > 0) {
-      sessions.add(workTime);
-      remainingTime -= workTime;
-
-      if (contShort < 2){
-        if (remainingTime > 0) {
-          sessions.add(shortBreakTime);
-          contShort++;
-        }
-      } else {
-        if (remainingTime > 0) {
-          sessions.add(longBreakTime);
-          contShort = 0;
-        }
-      }
-
-      if (remainingTime < workTime) {
-        sessions.add(remainingTime);
-        remainingTime =- remainingTime;
-      }
-    }
+  void createPomodoro(Task task) {
+    pomodoroActual = Pomodoro(duration: task.duration!);
+    taskName = task.name;
   }
 }
 

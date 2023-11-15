@@ -111,7 +111,6 @@ class DatabaseServices {
       throw Exception("Hubo un error en userExists ${e.toString()}");
     }
   }
-  
   static Future<bool> registerUser({ required BuildContext context, required String name, required String lastName,
     required String mail, required String password, required int age, required eGenere genere, 
     required DateTime birthDate,}) async {
@@ -164,8 +163,7 @@ class DatabaseServices {
     } catch (e) {
       return false;
     }
-  }  
-  
+  }   
   static Future<bool> addTask({
   required String name,
   String? description,
@@ -234,7 +232,6 @@ class DatabaseServices {
       throw Exception("Hubo un error en addTask $e");
     }
   } 
-  
   static bool deleteTask({required Task task}) {
     try {
       if (CustomUser.usuarioActual!.taskList.isNotEmpty) {

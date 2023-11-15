@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tempo_app/pages/dialog_helper.dart';
 import '../enum/genre.dart';
 import '../enum/priority.dart';
 import '../enum/quality.dart';

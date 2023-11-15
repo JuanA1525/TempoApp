@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
-import 'package:tempo_app/enum/priority.dart';
-import 'package:tempo_app/enum/state.dart';
 import 'package:tempo_app/model/model_custom_user.dart';
+import 'package:tempo_app/pages/view_pomodoro.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/view_sleeps.dart';
 import 'package:tempo_app/pages/view_login.dart';
@@ -195,7 +194,8 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
+                        // DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PomodoroView()));
                       },
                       child: const Icon(Icons.timer_sharp, color: Colors.blueAccent, size: 32,),
                     ),

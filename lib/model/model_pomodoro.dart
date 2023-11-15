@@ -1,4 +1,6 @@
 class Pomodoro {
+
+  static Pomodoro? actualPomodoro;
   int duration;
   int workTime;
   int shortBreakTime;

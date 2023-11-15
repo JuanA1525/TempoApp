@@ -155,6 +155,7 @@ class _LoginState extends State<Login> {
                         ),
                         child: TextFormField(
                           controller: cPassword,
+                          obscureText: true,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,

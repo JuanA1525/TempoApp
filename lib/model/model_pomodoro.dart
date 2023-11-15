@@ -1,3 +1,5 @@
+import 'model_task.dart';
+
 class Pomodoro {
   int duration;
   int workTime;
@@ -9,6 +11,9 @@ class Pomodoro {
   int cantWorkTime;
 
   List<int> sessions = [];
+
+  static Pomodoro? pomodoroActual;
+  static String? taskName;
 
   Pomodoro({
     this.duration = 75,
@@ -24,7 +29,6 @@ class Pomodoro {
       duration = cantWorkTime * workTime;
       cantWorkTime = 0;
     } 
-      
     calculatePomodoroSessions();
   }
 
@@ -58,6 +62,11 @@ class Pomodoro {
         remainingTime =- remainingTime;
       }
     }
+  }
+
+  void createPomodoro(Task task) {
+    pomodoroActual = Pomodoro(duration: task.duration!);
+    taskName = task.name;
   }
 }
 

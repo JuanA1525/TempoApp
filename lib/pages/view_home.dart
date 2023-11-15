@@ -173,7 +173,7 @@ class Home extends StatelessWidget {
                     )
                   ],
                 ),
-                height: 70,
+                height: 80,
                 width: 414,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -183,35 +183,28 @@ class Home extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Tasks()));
                       },
-                      // child: SvgPicture.asset(
-                      //   'assets/task_icon.svg', 
-                      //   color: Colors.blueAccent,
-                      //   width: 32,
-                      //   height: 32,
-                      // ),
-                      child: const Icon(Icons.task_alt_outlined, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.task_alt_outlined, color: Colors.blueAccent, size: 38,),
                     ),
 
                     GestureDetector(
                       onTap: () {
-                        // DatabaseServices.addTask(name: "Nombre de Task", description: "descriptionTEST", priority: ePriority.high, state: eState.toDo, duration: 12);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PomodoroView()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const PomodoroView()));
                       },
-                      child: const Icon(Icons.timer_sharp, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.timer_sharp, color: Colors.blueAccent, size: 38,),
                     ),
 
                     GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
                       },
-                      child: const Icon(Icons.home_outlined, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.home_outlined, color: Colors.blueAccent, size: 38,),
                     ),
 
                     GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Sleeps()));
                       },
-                      child: const Icon(Icons.bed_outlined, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.bed_outlined, color: Colors.blueAccent, size: 38,),
                     ),
 
                     GestureDetector(
@@ -222,7 +215,7 @@ class Home extends StatelessWidget {
                         }
                         
                       },
-                      child: const Icon(Icons.person_outline, color: Colors.blueAccent, size: 32,),
+                      child: const Icon(Icons.logout, color: Colors.blueAccent, size: 38,),
                     ),
 
                   ],

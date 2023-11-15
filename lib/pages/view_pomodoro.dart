@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tempo_app/model/model_pomodoro.dart';
 import 'package:tempo_app/pages/dialog_helper.dart';
+import 'package:tempo_app/pages/view_home.dart';
 
 class PomodoroView extends StatefulWidget {
   const PomodoroView({Key? key}) : super(key: key);
@@ -12,16 +14,14 @@ class PomodoroView extends StatefulWidget {
 }
 
 class _PomodoroViewState extends State<PomodoroView> {
+
   late PomodoroTimer pomodoroTimer;
   late Timer timer;
 
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _validatePomodoro();
-    });
+    _validatePomodoro();
   }
 
   @override
@@ -36,26 +36,99 @@ class _PomodoroViewState extends State<PomodoroView> {
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+
+
+
+          Container(
+            alignment: Alignment.center,
+            color: const Color.fromARGB(112, 0, 49, 90),
+            child: ListView(
               children: [
-                Text(
-                  'Tiempo Restante: ${pomodoroTimer.formattedCurrentSessionTime}',
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      pomodoroTimer.nextSession();
-                    });
-                  },
-                  child: Text('Siguiente Sesión'),
+          
+                const SizedBox(
+                    height: 80,
+                  ),
+          
+          
+                  BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Center(
+                          child: Text(
+                            'Pomodoro \n${Pomodoro.actualPomodoro?.taskName}',
+                            maxLines: 3,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 45,
+                                fontWeight: FontWeight.bold
+                                ),
+                            textAlign: TextAlign.center,
+                        )
+                      ),
+                    ),
+                  ),
+
+                 const SizedBox(height: 20),
+
+                  Image.asset(
+                    'assets/temp_clock.png',
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.contain,
+                  ),
+
+                const SizedBox(height: 20),
+          
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(
+                        'Tiempo Restante: ${pomodoroTimer.formattedCurrentSessionTime}',
+                        style: const TextStyle(color: Colors.white, fontSize: 30),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, 3))
+                            ],
+                          ),
+                          height: 50,
+                          width: 150,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                pomodoroTimer.nextSession();
+                              });
+                            },
+                            child: const Text('Siguiente Sesión',
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
+          Home.navbar(context)
         ],
       ),
     );
@@ -69,7 +142,7 @@ class _PomodoroViewState extends State<PomodoroView> {
 
   void _validatePomodoro() {
     if (Pomodoro.actualPomodoro == null) {
-      DialogHelper.showPopUpSelectPomodoro(context);
+      Navigator.pop(context);
     } else {
       pomodoroTimer = PomodoroTimer();
       timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -79,6 +152,7 @@ class _PomodoroViewState extends State<PomodoroView> {
       });
     }
   }
+
 }
 
 class PomodoroTimer {
@@ -89,7 +163,7 @@ class PomodoroTimer {
   int currentSessionTime = 0;
 
   PomodoroTimer() {
-    pomodoro!.calculatePomodoroSessions();
+    pomodoro?.calculatePomodoroSessions();
     sessions = pomodoro!.sessions;
     currentSessionTime = sessions[currentSessionIndex] * 60;
   }

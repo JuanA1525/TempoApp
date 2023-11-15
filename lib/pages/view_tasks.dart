@@ -344,11 +344,11 @@ class _TasksState extends State<Tasks> {
                                                       BorderRadius.circular(10),
                                                   borderSide: BorderSide.none,
                                                 ),
-                                                hintText: 'Duración (HHMM)',
+                                                hintText: 'Duración en minutos',
                                               ),
                                               validator: (value) {
                                                 if (value!.isEmpty) {
-                                                  return 'Por favor ingresa la duración!';
+                                                  return 'Por favor ingresa la duración en minutos!';
                                                 }
                                                 return null;
                                               },
@@ -536,9 +536,10 @@ class _TasksState extends State<Tasks> {
                                       color: Colors.blueAccent),
                                   onPressed: () {
                                     setState(() {
-                                      // Pomodoro.createPomodoro(
-                                      //     task: CustomUser
-                                      //         .usuarioActual!.taskList[index]);
+                                      Pomodoro.createPomodoro(
+                                          CustomUser
+                                              .usuarioActual!.taskList[index],
+                                          context);
                                     });
                                   },
                                 ),

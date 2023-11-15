@@ -202,7 +202,7 @@ class Home extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Sleeps()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SleepTable()));
                       },
                       child: const Icon(Icons.bed_outlined, color: Colors.blueAccent, size: 38,),
                     ),

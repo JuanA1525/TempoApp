@@ -29,6 +29,7 @@ flutter:
   - assets/task_icon.svg
   - assets/reloj_checked.png
   - assets/temp_clock.png
+  - assets/sleep_proto.jpg
 
 fonts:
   - family: Poppins

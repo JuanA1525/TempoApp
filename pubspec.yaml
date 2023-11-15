@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   
   flutter_svg: ^0.22.0
+  fl_chart: ^0.64.0
+
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +27,9 @@ flutter:
   - assets/login_bg.png
   - assets/register_bg.png
   - assets/task_icon.svg
+  - assets/reloj_checked.png
+  - assets/temp_clock.png
+  - assets/sleep_proto.jpg
 
 fonts:
   - family: Poppins

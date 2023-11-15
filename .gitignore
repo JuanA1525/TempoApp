@@ -32,6 +32,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Ignorar archivos relacionados con Linux, Windows y MacOS
+linux/
+macos/
+windows/
+
 # Symbolication related
 app.*.symbols
 

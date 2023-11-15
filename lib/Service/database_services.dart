@@ -446,7 +446,7 @@ class DatabaseServices {
         errores += "Invalidate Password. Password does not meet the specific conditions, please check your Password\n";
       }
       
-      else if(password.length<6){
+      else if(password.length<8){
         errores += "Invalidate Password. Password must contain more than 8 letters\n";
       }
       

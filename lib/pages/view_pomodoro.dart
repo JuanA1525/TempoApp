@@ -1,27 +1,32 @@
+// ignore_for_file: empty_catches
+
 import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tempo_app/model/model_pomodoro.dart';
-import 'package:tempo_app/pages/dialog_helper.dart';
+import 'package:tempo_app/model/model_pomodoro_timer.dart';
 import 'package:tempo_app/pages/view_home.dart';
 
 class PomodoroView extends StatefulWidget {
-  const PomodoroView({Key? key}) : super(key: key);
+  const PomodoroView({super.key,});
 
   @override
   State<PomodoroView> createState() => _PomodoroViewState();
 }
 
 class _PomodoroViewState extends State<PomodoroView> {
-  late PomodoroTimer pomodoroTimer;
-  late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    _validatePomodoro();
+    try {
+      _validatePomodoro();
+    } catch (e) {}
   }
+
+  late PomodoroTimer pomodoroTimer = PomodoroTimer(context);
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +105,7 @@ class _PomodoroViewState extends State<PomodoroView> {
                           height: 50,
                           width: 150,
                           child: const Center(
-                            child:  Text(
+                            child: Text(
                               'Siguiente Sesión',
                               style: TextStyle(
                                   color: Colors.blueAccent,
@@ -122,69 +127,19 @@ class _PomodoroViewState extends State<PomodoroView> {
     );
   }
 
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-
   void _validatePomodoro() {
-    if (Pomodoro.actualPomodoro == null) {
-      Navigator.pop(context);
-    } else {
-      pomodoroTimer = PomodoroTimer(context);
-      timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-        setState(() {
-          pomodoroTimer.tick();
-        });
-      });
-    }
-  }
-}
-
-class PomodoroTimer {
-  Pomodoro? pomodoro = Pomodoro.actualPomodoro;
-
-  BuildContext context;
-  List<int> sessions = [];
-  int currentSessionIndex = 0;
-  int currentSessionTime = 0;
-  int contador = 0;
-
-  PomodoroTimer(this.context) {
-    sessions = pomodoro!.sessions;
-    currentSessionTime = sessions[currentSessionIndex] * 60;
-  }
-
-  void tick() {
-    if (currentSessionTime > 0) {
-      currentSessionTime--;
-    } else {
-      nextSession();
-    }
-  }
-
-  String get formattedCurrentSessionTime {
-    int minutes = currentSessionTime ~/ 60;
-    int seconds = currentSessionTime % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
-  }
-
-  void nextSession() {
-    if (currentSessionIndex < sessions.length - 1) {
-      if (contador % 2 == 0) {
-        DialogHelper.showSessionFinishedDialog(context);
-        contador++;
-        currentSessionIndex++;
-        currentSessionTime = sessions[currentSessionIndex] * 60;
+    try {
+      if (Pomodoro.actualPomodoro == null) {
+        Navigator.pop(context);
       } else {
-        DialogHelper.showBreakFinishedDialog(context);
-        contador++;
-        currentSessionIndex++;
-        currentSessionTime = sessions[currentSessionIndex] * 60;
+        timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+          setState(() {
+            pomodoroTimer.tick();
+          });
+        });
       }
-    } else {
-      DialogHelper.showPomodoroFinishedDialog(context);
-    }
+    } catch (e) {}
   }
 }
+
+

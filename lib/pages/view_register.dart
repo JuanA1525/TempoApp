@@ -28,8 +28,8 @@ class _RegisterState extends State<Register> {
 
   final _formRegisterKey= GlobalKey<FormState>();
 
-    final RegExp vFirstname = RegExp(r'^[a-zA-Z ]+$');
-    final RegExp vLastname = RegExp(r'^[a-zA-Z ]+$');
+    final RegExp vFirstname = RegExp(r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$');
+    final RegExp vLastname = RegExp(r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$');
     final RegExp vMail = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     final RegExp vPassword = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$');
 

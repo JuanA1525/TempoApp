@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tempo_app/model/model_pomodoro.dart';
+import 'package:tempo_app/pages/dialog_helper.dart';
 import 'package:tempo_app/pages/view_home.dart';
 
 class PomodoroView extends StatefulWidget {
@@ -13,7 +14,6 @@ class PomodoroView extends StatefulWidget {
 }
 
 class _PomodoroViewState extends State<PomodoroView> {
-
   late PomodoroTimer pomodoroTimer;
   late Timer timer;
 
@@ -35,50 +35,38 @@ class _PomodoroViewState extends State<PomodoroView> {
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-
-
-
           Container(
             alignment: Alignment.center,
             color: const Color.fromARGB(112, 0, 49, 90),
             child: ListView(
               children: [
-          
                 const SizedBox(
-                    height: 80,
+                  height: 80,
+                ),
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Center(
+                        child: Text(
+                      'Pomodoro \n${Pomodoro.actualPomodoro?.taskName}',
+                      maxLines: 3,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    )),
                   ),
-          
-          
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Center(
-                          child: Text(
-                            'Pomodoro \n${Pomodoro.actualPomodoro?.taskName}',
-                            maxLines: 3,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 45,
-                                fontWeight: FontWeight.bold
-                                ),
-                            textAlign: TextAlign.center,
-                        )
-                      ),
-                    ),
-                  ),
-
-                 const SizedBox(height: 20),
-
-                  Image.asset(
-                    'assets/temp_clock.png',
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
-                  ),
-
+                ),
                 const SizedBox(height: 20),
-          
+                Image.asset(
+                  'assets/temp_clock.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 20),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -86,11 +74,18 @@ class _PomodoroViewState extends State<PomodoroView> {
                       const SizedBox(height: 20),
                       Text(
                         'Tiempo Restante: ${pomodoroTimer.formattedCurrentSessionTime}',
-                        style: const TextStyle(color: Colors.white, fontSize: 30),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 30),
                       ),
                       const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            pomodoroTimer.nextSession();
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
@@ -104,19 +99,13 @@ class _PomodoroViewState extends State<PomodoroView> {
                           ),
                           height: 50,
                           width: 150,
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                pomodoroTimer.nextSession();
-                              });
-                            },
-                            child: const Text('Siguiente Sesión',
+                          child: const Center(
+                            child:  Text(
+                              'Siguiente Sesión',
                               style: TextStyle(
                                   color: Colors.blueAccent,
                                   fontSize: 17,
-                                  fontWeight: FontWeight.bold
-                              ),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -143,7 +132,7 @@ class _PomodoroViewState extends State<PomodoroView> {
     if (Pomodoro.actualPomodoro == null) {
       Navigator.pop(context);
     } else {
-      pomodoroTimer = PomodoroTimer();
+      pomodoroTimer = PomodoroTimer(context);
       timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
         setState(() {
           pomodoroTimer.tick();
@@ -151,18 +140,18 @@ class _PomodoroViewState extends State<PomodoroView> {
       });
     }
   }
-
 }
 
 class PomodoroTimer {
   Pomodoro? pomodoro = Pomodoro.actualPomodoro;
 
+  BuildContext context;
   List<int> sessions = [];
   int currentSessionIndex = 0;
   int currentSessionTime = 0;
+  int contador = 0;
 
-  PomodoroTimer() {
-    pomodoro?.calculatePomodoroSessions();
+  PomodoroTimer(this.context) {
     sessions = pomodoro!.sessions;
     currentSessionTime = sessions[currentSessionIndex] * 60;
   }
@@ -183,12 +172,19 @@ class PomodoroTimer {
 
   void nextSession() {
     if (currentSessionIndex < sessions.length - 1) {
-      currentSessionIndex++;
-      currentSessionTime = sessions[currentSessionIndex] * 60;
+      if (contador % 2 == 0) {
+        DialogHelper.showSessionFinishedDialog(context);
+        contador++;
+        currentSessionIndex++;
+        currentSessionTime = sessions[currentSessionIndex] * 60;
+      } else {
+        DialogHelper.showBreakFinishedDialog(context);
+        contador++;
+        currentSessionIndex++;
+        currentSessionTime = sessions[currentSessionIndex] * 60;
+      }
     } else {
-      // Se ha completado un ciclo, puedes reiniciar o manejar según tus necesidades
-      currentSessionIndex = 0;
-      currentSessionTime = sessions[currentSessionIndex] * 60;
+      DialogHelper.showPomodoroFinishedDialog(context);
     }
   }
 }

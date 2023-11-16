@@ -69,11 +69,6 @@ class Pomodoro {
     actualPomodoro!.taskName = task.name;
 
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PomodoroView()
-        )
-    );
-
+        context, MaterialPageRoute(builder: (context) => const PomodoroView()));
   }
 }

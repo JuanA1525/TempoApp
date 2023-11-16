@@ -496,8 +496,9 @@ class _TasksState extends State<Tasks> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      CustomUser
-                                          .usuarioActual!.taskList[index].name,
+                                      CustomUser.usuarioActual!.taskList[index].name.length <= 17
+                                      ? CustomUser.usuarioActual!.taskList[index].name
+                                      : "${CustomUser.usuarioActual!.taskList[index].name.substring(0, 14)}...",
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -505,8 +506,9 @@ class _TasksState extends State<Tasks> {
                                               Color.fromARGB(255, 2, 78, 209)),
                                     ),
                                     Text(
-                                      CustomUser.usuarioActual!.taskList[index]
-                                          .description!,
+                                      CustomUser.usuarioActual!.taskList[index].description!.length <= 20
+                                      ? CustomUser.usuarioActual!.taskList[index].description!
+                                      : "${CustomUser.usuarioActual!.taskList[index].description!.substring(0, 20)}...",
                                       style: const TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,

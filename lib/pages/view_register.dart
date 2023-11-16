@@ -36,14 +36,14 @@ class _RegisterState extends State<Register> {
   final List<String> _options = ['Masculino', 'Femenino'];
   String? _selectedOption;
 
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(2014, 1, 1);
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2014),
     );
     if (picked != null && picked != selectedDate) {
       setState(() {

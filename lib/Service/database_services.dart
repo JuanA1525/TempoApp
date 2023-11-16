@@ -99,6 +99,7 @@ class DatabaseServices {
       throw Exception("Hubo un error en getUser ${e.toString()}");
     }
   }
+
   static Future<bool> userExists({required String userMail}) async {
     try {
       DocumentSnapshot snapDoc = await usersCollection.doc(userMail).get();
@@ -111,10 +112,12 @@ class DatabaseServices {
       throw Exception("Hubo un error en userExists ${e.toString()}");
     }
   }
+
   static Future<bool> registerUser({ required BuildContext context, required String name, required String lastName,
     required String mail, required String password, required int age, required eGenere genere, 
     required DateTime birthDate,}) async {
     try {
+      
       DocumentReference docRef = usersCollection.doc(mail);
 
         if (await userExists(userMail: mail)) {

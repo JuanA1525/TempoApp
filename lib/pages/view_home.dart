@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tempo_app/Service/database_services.dart';
 import 'package:tempo_app/model/model_custom_user.dart';
+import 'package:tempo_app/model/model_pomodoro.dart';
+import 'package:tempo_app/pages/dialog_helper.dart';
 import 'package:tempo_app/pages/view_pomodoro.dart';
 import 'dart:ui';
 import 'package:tempo_app/pages/view_sleeps.dart';
@@ -174,10 +176,14 @@ class Home extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PomodoroView()));
+                if (Pomodoro.actualPomodoro == null) {
+                  DialogHelper.showPopUpSelectPomodoro(context);
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PomodoroView()));
+                }
               },
               child: const Icon(
                 Icons.timer_sharp,
